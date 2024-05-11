@@ -13,12 +13,13 @@ function App() {
 
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://www.hubermanlab.com/newsletter/foundational-fitness-protocol"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get Swole
+          Get Swole with Huberman Lab
         </a>
+        <br />
       </header>
       <Footer />
     </div>
