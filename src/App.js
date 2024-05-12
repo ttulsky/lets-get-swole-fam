@@ -1,28 +1,23 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import Home from "./components/home";
+import Login from "./components/login";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <header className="App-header">
-        <h2>Welcome Fam</h2>
-        <p>Lets Get Swole!</p>
-        <img src="/fitness.png" className="App-logo" alt="logo" />
-
-        <a
-          className="App-link"
-          href="https://www.hubermanlab.com/newsletter/foundational-fitness-protocol"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Get Swole with Huberman Lab
-        </a>
-        <br />
-      </header>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
