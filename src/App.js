@@ -7,6 +7,7 @@ import Home from "./components/home";
 import Login from "./components/login";
 import WorkoutLog from "./components/logs/workoutLog";
 import MealLog from "./components/logs/mealLogs";
+import MeditationTimer from "./components/meditation/meditationTimer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/workoutLog" element={<WorkoutLog />} />
           <Route path="/mealLogs" element={<MealLog />} />
+          <Route path="/meditationTimer" element={<MeditationTimer />} />
         </Routes>
         <Footer />
       </div>
