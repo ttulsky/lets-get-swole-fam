@@ -29,6 +29,9 @@ function Header() {
   const handleHome = () => {
     navigate("/"); // Navigate to the login page
   };
+  const handleWorkOut = () => {
+    navigate("/workoutLog"); // Navigate to the login page
+  };
 
   return (
     <AppBar position="static">
@@ -50,7 +53,7 @@ function Header() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Work Out Logs</MenuItem>
+          <MenuItem onClick={handleWorkOut}>Work Out Logs</MenuItem>
           <MenuItem onClick={handleClose}>Meal Logs</MenuItem>
           <MenuItem onClick={handleClose}>Meditation Timer</MenuItem>
           <MenuItem onClick={handleClose}>Swole Fam Resources</MenuItem>

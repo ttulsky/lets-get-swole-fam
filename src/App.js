@@ -5,6 +5,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./components/home";
 import Login from "./components/login";
+import WorkoutLog from "./components/logs/workoutLog";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
+          <Route path="/workoutLog" element={<WorkoutLog />} />
         </Routes>
         <Footer />
       </div>
