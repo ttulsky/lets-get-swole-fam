@@ -23,14 +23,10 @@ function Header() {
     setAnchorEl(null);
   };
 
-  const handleLogin = () => {
-    navigate("/login"); // Navigate to the login page
-  };
-  const handleHome = () => {
-    navigate("/"); // Navigate to the login page
-  };
-  const handleWorkOut = () => {
-    navigate("/workoutLog"); // Navigate to the login page
+  // Combine navigate and handleClose in one function
+  const handleNavigate = (path) => {
+    handleClose(); // Close the menu
+    navigate(path); // Navigate after the menu has been closed
   };
 
   return (
@@ -53,21 +49,31 @@ function Header() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleWorkOut}>Work Out Logs</MenuItem>
-          <MenuItem onClick={handleClose}>Meal Logs</MenuItem>
-          <MenuItem onClick={handleClose}>Meditation Timer</MenuItem>
-          <MenuItem onClick={handleClose}>Swole Fam Resources</MenuItem>
-          <MenuItem onClick={handleClose}>Contact</MenuItem>
+          <MenuItem onClick={() => handleNavigate("/workoutLog")}>
+            Work Out Logs
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/mealLogs")}>
+            Meal Logs
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/meditationTimer")}>
+            Meditation Timer
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/resources")}>
+            Swole Fam Resources
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/contact")}>
+            Contact
+          </MenuItem>
         </Menu>
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1 }}
         ></Typography>
-        <Button color="inherit" onClick={handleHome}>
+        <Button color="inherit" onClick={() => handleNavigate("/")}>
           Home
         </Button>
-        <Button color="inherit" onClick={handleLogin}>
+        <Button color="inherit" onClick={() => handleNavigate("/login")}>
           Login
         </Button>
       </Toolbar>
