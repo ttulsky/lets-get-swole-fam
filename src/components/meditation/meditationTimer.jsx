@@ -63,6 +63,20 @@ function MeditationTimer() {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handleCloseCompletionSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowCompletionSnackbar(false);
+  };
+
   return (
     <Container style={{ marginTop: 20 }}>
       <Typography variant="h4" gutterBottom>
@@ -104,24 +118,24 @@ function MeditationTimer() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
+        onClose={handleCloseSnackbar}
         message="Enjoy your meditation"
         anchorOrigin={{
           vertical: "center",
           horizontal: "center",
         }}
-        style={{ top: "10%" }}
+        style={{ top: "50%" }}
       />
       <Snackbar
         open={showCompletionSnackbar}
         autoHideDuration={6000}
-        onClose={() => setShowCompletionSnackbar(false)}
+        onClose={handleCloseCompletionSnackbar}
         message="Namaste, my friend"
         anchorOrigin={{
           vertical: "center",
           horizontal: "center",
         }}
-        style={{ top: "10%" }}
+        style={{ top: "50%" }}
       />
     </Container>
   );
