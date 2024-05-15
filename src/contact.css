@@ -1,0 +1,23 @@
+.contact-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.contact-info p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.social-links a {
+  margin: 0 10px;
+  font-size: 20px;
+  color: #0077b5; /* LinkedIn blue for example */
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
