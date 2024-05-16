@@ -5,6 +5,7 @@ import {
   Typography,
   Container,
   Snackbar,
+  Paper,
 } from "@mui/material";
 
 function MeditationTimer() {
@@ -13,6 +14,23 @@ function MeditationTimer() {
   const [isActive, setIsActive] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showCompletionSnackbar, setShowCompletionSnackbar] = useState(false);
+  const [note, setNote] = useState("");
+  const [logs, setLogs] = useState([]);
+
+  const handleInputNoteChange = (event) => {
+    setNote(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (note.trim() !== "") {
+      const newLog = {
+        content: note,
+        dateTime: new Date(), // Store the current date and time
+      };
+      setLogs([...logs, newLog]);
+      setNote(""); // Clear the input after submission
+    }
+  };
 
   useEffect(() => {
     let interval = null;
@@ -137,8 +155,51 @@ function MeditationTimer() {
         }}
         style={{ top: "50%" }}
       />
+      <hr />
+      <br />
+      <Paper style={{ padding: 20, marginTop: 20, marginBottom: 20 }}>
+        <Typography variant="h5" style={{ marginBottom: 20 }}>
+          Meditation Notes
+        </Typography>
+        <TextField
+          label="Meditation Notes"
+          multiline
+          rows={4}
+          variant="outlined"
+          fullWidth
+          value={note}
+          onChange={handleInputNoteChange}
+          placeholder="Enter your reflections here..."
+          style={{ marginBottom: 20 }}
+        />
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Add Log
+        </Button>
+        <Typography variant="h6" style={{ marginTop: 20 }}>
+          Your Logs:
+        </Typography>
+        <ul>
+          {logs.map((log, index) => (
+            <li key={index}>
+              <strong>Meditation | {formatDateTime(log.dateTime)}</strong>:{" "}
+              {log.content}
+            </li>
+          ))}
+        </ul>
+      </Paper>
     </Container>
   );
+}
+function formatDateTime(dateTime) {
+  return `${dateTime.toLocaleDateString("en-US", {
+    weekday: "long", // "Monday"
+    year: "numeric", // "2021"
+    month: "long", // "July"
+    day: "numeric", // "20"
+  })} at ${dateTime.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
 }
 
 export default MeditationTimer;

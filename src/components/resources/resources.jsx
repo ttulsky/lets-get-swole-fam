@@ -96,6 +96,36 @@ const Resources = () => {
           </a>
         </li>
       </ul>
+      <h2>Swole Foods</h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.wellplated.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Well Plated by Erin
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.skinnytaste.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Skinnytaste
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.thespruceeats.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            The Spruce Eats
+          </a>
+        </li>
+      </ul>
     </div>
   );
 };
