@@ -7,6 +7,7 @@ import {
   Snackbar,
   Paper,
 } from "@mui/material";
+import "./meditation.css";
 
 function MeditationTimer() {
   const [minutes, setMinutes] = useState("");
@@ -97,42 +98,44 @@ function MeditationTimer() {
 
   return (
     <Container style={{ marginTop: 20 }}>
-      <Typography variant="h4" gutterBottom>
-        Meditation Timer
-      </Typography>
-      <TextField
-        label="Set Time (Minutes)"
-        type="number"
-        variant="outlined"
-        value={minutes}
-        onChange={handleInputChange}
-        disabled={isActive}
-        style={{ marginBottom: 20 }}
-      />
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleStartTimer}
-          disabled={!minutes || isActive}
-        >
-          Start
-        </Button>
-        <Button
+      <div className="grid-item">
+        <Typography variant="h4" gutterBottom>
+          Meditation Timer
+        </Typography>
+        <TextField
+          label="Set Time (Minutes)"
+          type="number"
           variant="outlined"
-          color="secondary"
-          onClick={handleStopTimer}
-          disabled={!isActive}
-        >
-          Stop
-        </Button>
-        <Button variant="outlined" onClick={handleResetTimer}>
-          Reset
-        </Button>
+          value={minutes}
+          onChange={handleInputChange}
+          disabled={isActive}
+          style={{ marginBottom: 20 }}
+        />
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleStartTimer}
+            disabled={!minutes || isActive}
+          >
+            Start
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleStopTimer}
+            disabled={!isActive}
+          >
+            Stop
+          </Button>
+          <Button variant="outlined" onClick={handleResetTimer}>
+            Reset
+          </Button>
+        </div>
+        <Typography variant="h5" style={{ margin: "20px 0" }}>
+          Time Remaining: {formatTime()}
+        </Typography>
       </div>
-      <Typography variant="h5" style={{ margin: "20px 0" }}>
-        Time Remaining: {formatTime()}
-      </Typography>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
@@ -155,8 +158,7 @@ function MeditationTimer() {
         }}
         style={{ top: "50%" }}
       />
-      <hr />
-      <br />
+
       <Paper style={{ padding: 20, marginTop: 20, marginBottom: 20 }}>
         <Typography variant="h5" style={{ marginBottom: 20 }}>
           Meditation Notes
