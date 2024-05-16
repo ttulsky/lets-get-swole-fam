@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./contact.css";
 const Contact = () => {
   return (
     <div className="contact-container">
@@ -11,7 +11,9 @@ const Contact = () => {
 
       <div className="contact-info">
         <p>
-          <a href="mailto:youremail@example.com">letsgetswolefam@gmail.com</a>
+          <a href="mailto:letsgetswolefam@gmail.com">
+            letsgetswolefam@gmail.com
+          </a>
         </p>
       </div>
     </div>

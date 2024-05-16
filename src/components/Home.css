@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  color: #040404;
+
+  align-items: flex-start; /* Align items at the start of the page */
+  height: 100vh; /* Ensure the body takes full height */
+}
+
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.content {
+  max-width: 800px;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  margin-bottom: 1em;
+}
+
+.App-logo {
+  height: 50vmin;
+  pointer-events: none;
+  margin-top: 0;
+}

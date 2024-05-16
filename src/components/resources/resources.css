@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+.resources-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.resources-container h1 {
+  margin-bottom: 2em;
+  color: #333;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Define two columns */
+  grid-template-rows: auto; /* Define auto rows */
+  gap: 20px;
+}
+
+.grid-item {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item h2 {
+  margin-bottom: 1em;
+  color: #0077b5;
+}
+
+.grid-item ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.grid-item li {
+  padding: 8px 0;
+}
+
+.grid-item a {
+  color: #0077b5;
+  text-decoration: none;
+}
+
+.grid-item a:hover {
+  text-decoration: underline;
+}
