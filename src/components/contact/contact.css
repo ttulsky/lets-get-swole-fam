@@ -21,3 +21,18 @@
 .social-links a:hover {
   text-decoration: underline;
 }
+
+.grid-item {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center the contact card */
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vh; /* Full viewport height */
+}

@@ -59,7 +59,7 @@ function Header() {
             Meditation Timer
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/resources")}>
-            Swole Fam Resources
+            Swole Resources
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/contact")}>
             Contact

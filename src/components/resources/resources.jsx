@@ -23,7 +23,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get swole bodybuilding Fitness Plans
+                Bodybuilding Fitness Plans
               </a>
             </li>
             <li>
@@ -32,7 +32,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get swole with Crossfit
+                Crossfit Swole-ness
               </a>
             </li>
           </ul>
@@ -56,7 +56,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get a swole Headspace
+                Swole Headspace
               </a>
             </li>
             <li>
@@ -65,7 +65,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                get swole relaxation
+                Swole relaxation
               </a>
             </li>
           </ul>
@@ -80,7 +80,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get swole Spiritual Teacniques
+                Spiritual Teacniques
               </a>
             </li>
             <li>
@@ -89,7 +89,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get swole Spiritual Reflections
+                Spiritual Reflections
               </a>
             </li>
             <li>
@@ -98,7 +98,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Super Swole Spiritual Courses
+                Spiritual Courses
               </a>
             </li>
           </ul>
@@ -113,7 +113,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Well Plated by Erin
+                Well Plated
               </a>
             </li>
             <li>

@@ -38,3 +38,10 @@ p {
   pointer-events: none;
   margin-top: 0;
 }
+
+/* Media query for mobile viewports */
+@media (max-width: 768px) {
+  .App-logo {
+    height: 70vmin; /* Increase logo size for mobile */
+  }
+}
