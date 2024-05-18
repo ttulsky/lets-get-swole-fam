@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Button, TextField, Container, Typography, Paper } from "@mui/material";
+import LogModal from "../modal/modal";
 
 function WorkoutLog() {
   const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState(null);
 
   const handleInputChange = (event) => {
     setNote(event.target.value);
@@ -18,6 +21,16 @@ function WorkoutLog() {
       setLogs([...logs, newLog]);
       setNote(""); // Clear the input after submission
     }
+  };
+
+  const handleOpenModal = (log) => {
+    setSelectedLog(log);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedLog(null);
   };
 
   return (
@@ -46,12 +59,19 @@ function WorkoutLog() {
         <ul>
           {logs.map((log, index) => (
             <li key={index}>
-              <strong>Workout | {formatDateTime(log.dateTime)}</strong>:{" "}
-              {log.content}
+              <Button onClick={() => handleOpenModal(log)}>
+                Workout | {formatDateTime(log.dateTime)}
+              </Button>
             </li>
           ))}
         </ul>
       </Paper>
+      <LogModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        date={selectedLog ? formatDateTime(selectedLog.dateTime) : ""}
+        content={selectedLog ? selectedLog.content : ""}
+      />
     </Container>
   );
 }

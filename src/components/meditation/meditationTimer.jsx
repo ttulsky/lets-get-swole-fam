@@ -7,6 +7,7 @@ import {
   Snackbar,
   Paper,
 } from "@mui/material";
+import LogModal from "../modal/modal";
 import "./meditation.css";
 
 function MeditationTimer() {
@@ -17,6 +18,8 @@ function MeditationTimer() {
   const [showCompletionSnackbar, setShowCompletionSnackbar] = useState(false);
   const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState(null);
 
   const handleInputNoteChange = (event) => {
     setNote(event.target.value);
@@ -31,6 +34,16 @@ function MeditationTimer() {
       setLogs([...logs, newLog]);
       setNote(""); // Clear the input after submission
     }
+  };
+
+  const handleOpenModal = (log) => {
+    setSelectedLog(log);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedLog(null);
   };
 
   useEffect(() => {
@@ -183,15 +196,23 @@ function MeditationTimer() {
         <ul>
           {logs.map((log, index) => (
             <li key={index}>
-              <strong>Meditation | {formatDateTime(log.dateTime)}</strong>:{" "}
-              {log.content}
+              <Button onClick={() => handleOpenModal(log)}>
+                Meditation | {formatDateTime(log.dateTime)}
+              </Button>
             </li>
           ))}
         </ul>
       </Paper>
+      <LogModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        date={selectedLog ? formatDateTime(selectedLog.dateTime) : ""}
+        content={selectedLog ? selectedLog.content : ""}
+      />
     </Container>
   );
 }
+
 function formatDateTime(dateTime) {
   return `${dateTime.toLocaleDateString("en-US", {
     weekday: "long", // "Monday"
