@@ -6,7 +6,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600, // Increase the width
+  width: "80%", // Use percentage to make it responsive
+  maxWidth: 600, // Max width for larger screens
   bgcolor: "background.paper",
   border: "none", // Remove the border for a cleaner look
   boxShadow: 24,
