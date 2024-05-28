@@ -19,11 +19,10 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const logout = () => {
-    signOut(auth).then(() => {
-      setCurrentUser(null);
-      localStorage.removeItem("authToken");
-    });
+  const logout = async () => {
+    await signOut(auth);
+    setCurrentUser(null);
+    localStorage.removeItem("authToken");
   };
 
   return (

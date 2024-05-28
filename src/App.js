@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import "./calendarStyles.css";
 import Header from "./components/header";
@@ -14,21 +14,19 @@ import Resources from "./components/resources/resources";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/workoutLog" element={<WorkoutLog />} />
-          <Route path="/mealLogs" element={<MealLog />} />
-          <Route path="/meditationTimer" element={<MeditationTimer />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/resources" element={<Resources />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <Header />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/workoutLog" element={<WorkoutLog />} />
+        <Route path="/mealLogs" element={<MealLog />} />
+        <Route path="/meditationTimer" element={<MeditationTimer />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/resources" element={<Resources />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 

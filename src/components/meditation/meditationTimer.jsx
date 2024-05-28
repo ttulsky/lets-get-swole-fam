@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   TextField,
   Button,
@@ -8,9 +8,14 @@ import {
   Paper,
 } from "@mui/material";
 import LogModal from "../modal/modal";
+import { firestore } from "../../firebase-config";
+import { collection, addDoc, query, getDocs } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore"; // Import Timestamp
+import AuthContext from "../../authContext";
 import "./meditation.css";
 
 function MeditationTimer() {
+  const { currentUser } = useContext(AuthContext);
   const [minutes, setMinutes] = useState("");
   const [secondsRemaining, setSecondsRemaining] = useState(0);
   const [isActive, setIsActive] = useState(false);
@@ -21,18 +26,43 @@ function MeditationTimer() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
 
+  useEffect(() => {
+    if (currentUser) {
+      fetchLogs();
+    }
+  }, [currentUser]);
+
+  const fetchLogs = async () => {
+    if (currentUser) {
+      const q = query(
+        collection(firestore, `users/${currentUser.uid}/meditationLogs`)
+      );
+      const querySnapshot = await getDocs(q);
+      const fetchedLogs = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        dateTime: doc.data().dateTime.toDate(), // Convert Timestamp to Date
+      }));
+      setLogs(fetchedLogs);
+    }
+  };
+
   const handleInputNoteChange = (event) => {
     setNote(event.target.value);
   };
 
-  const handleSubmit = () => {
-    if (note.trim() !== "") {
+  const handleSubmit = async () => {
+    if (note.trim() !== "" && currentUser) {
       const newLog = {
         content: note,
-        dateTime: new Date(), // Store the current date and time
+        dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
       };
-      setLogs([...logs, newLog]);
-      setNote(""); // Clear the input after submission
+      await addDoc(
+        collection(firestore, `users/${currentUser.uid}/meditationLogs`),
+        newLog
+      );
+      setNote("");
+      fetchLogs(); // Refresh logs after adding a new one
     }
   };
 
@@ -194,8 +224,8 @@ function MeditationTimer() {
           Your Logs:
         </Typography>
         <ul>
-          {logs.map((log, index) => (
-            <li key={index}>
+          {logs.map((log) => (
+            <li key={log.id}>
               <Button onClick={() => handleOpenModal(log)}>
                 Meditation | {formatDateTime(log.dateTime)}
               </Button>
@@ -215,10 +245,10 @@ function MeditationTimer() {
 
 function formatDateTime(dateTime) {
   return `${dateTime.toLocaleDateString("en-US", {
-    weekday: "long", // "Monday"
-    year: "numeric", // "2021"
-    month: "long", // "July"
-    day: "numeric", // "20"
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   })} at ${dateTime.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",

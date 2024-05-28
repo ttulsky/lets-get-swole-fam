@@ -30,9 +30,10 @@ function Header() {
     navigate(path);
   };
 
-  const handleAuthAction = () => {
+  const handleAuthAction = async () => {
     if (currentUser) {
-      logout();
+      await logout();
+      navigate("/"); // Redirect to home after logout
     } else {
       navigate("/login");
     }
