@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,11 +9,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../authContext";
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
+  const { currentUser, logout } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,10 +25,17 @@ function Header() {
     setAnchorEl(null);
   };
 
-  // Combine navigate and handleClose in one function
   const handleNavigate = (path) => {
-    handleClose(); // Close the menu
-    navigate(path); // Navigate after the menu has been closed
+    handleClose();
+    navigate(path);
+  };
+
+  const handleAuthAction = () => {
+    if (currentUser) {
+      logout();
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -73,8 +82,8 @@ function Header() {
         <Button color="inherit" onClick={() => handleNavigate("/")}>
           Home
         </Button>
-        <Button color="inherit" onClick={() => handleNavigate("/login")}>
-          Login
+        <Button color="inherit" onClick={handleAuthAction}>
+          {currentUser ? "Log Out" : "Login"}
         </Button>
       </Toolbar>
     </AppBar>

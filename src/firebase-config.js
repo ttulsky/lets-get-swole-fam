@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/firestore"; // Import Firestore service
-import "firebase/auth"; // Import Auth service if you plan to use authentication
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -13,8 +13,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // Export Firebase services
-export const firestore = firebase.firestore();
-export const auth = firebase.auth();
+export const firestore = getFirestore(app);
+export const auth = getAuth(app);

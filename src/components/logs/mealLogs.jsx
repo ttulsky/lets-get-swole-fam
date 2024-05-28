@@ -67,7 +67,7 @@ function MealLog() {
           ))}
         </ul>
       </Paper>
-      <LogCalendar logs={logs} />
+      {/* <LogCalendar logs={logs} /> */}
       <LogModal
         open={modalOpen}
         handleClose={handleCloseModal}
