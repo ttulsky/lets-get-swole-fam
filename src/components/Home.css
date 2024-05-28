@@ -37,6 +37,8 @@ p {
   height: 50vmin;
   pointer-events: none;
   margin-top: 0;
+  border-radius: 50%; /* Make the image circular */
+  object-fit: cover; /* Ensure the image covers the circle shape */
 }
 
 /* Media query for mobile viewports */

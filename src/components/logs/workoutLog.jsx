@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Container, Typography, Paper } from "@mui/material";
 import LogModal from "../modal/modal";
+import LogCalendar from "../calendar/calendar";
 
 function WorkoutLog() {
   const [note, setNote] = useState("");
@@ -66,6 +67,7 @@ function WorkoutLog() {
           ))}
         </ul>
       </Paper>
+      <LogCalendar logs={logs} />
       <LogModal
         open={modalOpen}
         handleClose={handleCloseModal}

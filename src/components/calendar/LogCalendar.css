@@ -1,0 +1,41 @@
+.log-calendar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.log-marker {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    25,
+    118,
+    210,
+    0.2
+  ); /* Light blue background matching Material-UI primary color */
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.react-calendar__tile {
+  position: relative;
+}
+
+.react-calendar__tile--now {
+  background: none !important; /* Make the current day transparent */
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: black !important; /* Change weekend text color to black */
+}
+
+.react-calendar__tile--active .log-marker {
+  background-color: rgba(
+    25,
+    118,
+    210,
+    0.4
+  ); /* Darker blue for the active day matching Material-UI primary color */
+}

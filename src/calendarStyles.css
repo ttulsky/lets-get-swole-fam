@@ -1,0 +1,23 @@
+/* calendarStyles.css */
+
+/* Default color for all days */
+.MuiPickersDay-root {
+  color: inherit;
+}
+
+/* Blue background for selected days with white text */
+.MuiPickersDay-root.Mui-selected {
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+/* Default color for weekends */
+.MuiPickersDay-root.MuiPickersDay-dayWeekend {
+  color: inherit !important;
+}
+
+/* Remove yellow background for the current day */
+.MuiPickersDay-root.MuiPickersDay-today {
+  border: none !important;
+  background-color: transparent !important;
+}
