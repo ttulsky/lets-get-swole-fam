@@ -47,3 +47,24 @@ p {
     height: 70vmin; /* Increase logo size for mobile */
   }
 }
+.a2hs-button {
+  display: inline-block; /* Show by default */
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #2196f3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.a2hs-button:hover {
+  background-color: #1976d2;
+}
+
+@media (min-width: 769px) {
+  .a2hs-button {
+    display: none; /* Hide on larger screens */
+  }
+}
