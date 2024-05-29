@@ -15,7 +15,7 @@ import AuthContext from "../authContext";
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser, userName, logout } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,10 +30,10 @@ function Header() {
     navigate(path);
   };
 
-  const handleAuthAction = async () => {
+  const handleAuthAction = () => {
     if (currentUser) {
-      await logout();
-      navigate("/"); // Redirect to home after logout
+      logout();
+      navigate("/");
     } else {
       navigate("/login");
     }
@@ -80,6 +80,11 @@ function Header() {
           component="div"
           sx={{ flexGrow: 1 }}
         ></Typography>
+        {currentUser && (
+          <Typography variant="h6" component="div" sx={{ marginRight: 2 }}>
+            Welcome back {userName}!
+          </Typography>
+        )}
         <Button color="inherit" onClick={() => handleNavigate("/")}>
           Home
         </Button>
