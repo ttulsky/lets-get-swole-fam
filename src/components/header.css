@@ -1,0 +1,11 @@
+/* Add this to your CSS file */
+
+.welcome-message {
+  display: block; /* Default display */
+}
+
+@media (max-width: 768px) {
+  .welcome-message {
+    display: none; /* Hide on mobile */
+  }
+}

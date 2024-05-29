@@ -11,6 +11,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../authContext";
+import "./header.css";
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -81,7 +82,12 @@ function Header() {
           sx={{ flexGrow: 1 }}
         ></Typography>
         {currentUser && (
-          <Typography variant="h6" component="div" sx={{ marginRight: 2 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ marginRight: 2 }}
+            className="welcome-message"
+          >
             Welcome back {userName}!
           </Typography>
         )}
