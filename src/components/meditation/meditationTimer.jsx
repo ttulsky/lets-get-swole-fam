@@ -25,6 +25,8 @@ function MeditationTimer() {
   const [logs, setLogs] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   useEffect(() => {
     if (currentUser) {
@@ -52,7 +54,13 @@ function MeditationTimer() {
   };
 
   const handleSubmit = async () => {
-    if (note.trim() !== "" && currentUser) {
+    if (!currentUser) {
+      setSnackbarMessage("Please log in to add a log.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (note.trim() !== "") {
       const newLog = {
         content: note,
         dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
@@ -129,7 +137,9 @@ function MeditationTimer() {
     if (reason === "clickaway") {
       return;
     }
+    setSnackbarOpen(false);
     setOpenSnackbar(false);
+    setShowCompletionSnackbar(false);
   };
 
   const handleCloseCompletionSnackbar = (event, reason) => {
@@ -184,22 +194,16 @@ function MeditationTimer() {
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
         message="Enjoy your meditation"
-        anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
-        }}
-        style={{ top: "50%" }}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }} // Center the Snackbar
+        ContentProps={{}}
       />
       <Snackbar
         open={showCompletionSnackbar}
         autoHideDuration={6000}
         onClose={handleCloseCompletionSnackbar}
         message="Namaste, my friend"
-        anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
-        }}
-        style={{ top: "50%" }}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }} // Center the Snackbar
+        ContentProps={{}}
       />
 
       <Paper style={{ padding: 20, marginTop: 20, marginBottom: 20 }}>
@@ -238,6 +242,14 @@ function MeditationTimer() {
         handleClose={handleCloseModal}
         date={selectedLog ? formatDateTime(selectedLog.dateTime) : ""}
         content={selectedLog ? selectedLog.content : ""}
+      />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }} // Center the Snackbar
+        ContentProps={{}}
       />
     </Container>
   );

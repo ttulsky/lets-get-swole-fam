@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, TextField, Container, Typography, Paper } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Paper,
+  Snackbar,
+} from "@mui/material";
 import LogModal from "../modal/modal";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
-import { Timestamp } from "firebase/firestore"; // Import Timestamp
+import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
 
 function MealLog() {
@@ -13,6 +20,8 @@ function MealLog() {
   const [logs, setLogs] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   useEffect(() => {
     if (currentUser) {
@@ -40,7 +49,13 @@ function MealLog() {
   };
 
   const handleSubmit = async () => {
-    if (note.trim() !== "" && currentUser) {
+    if (!currentUser) {
+      setSnackbarMessage("Please log in to add a log.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (note.trim() !== "") {
       const newLog = {
         content: note,
         dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
@@ -62,6 +77,10 @@ function MealLog() {
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedLog(null);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -97,12 +116,18 @@ function MealLog() {
           ))}
         </ul>
       </Paper>
-      {/* <LogCalendar logs={logs} /> */}
       <LogModal
         open={modalOpen}
         handleClose={handleCloseModal}
         date={selectedLog ? formatDateTime(selectedLog.dateTime) : ""}
         content={selectedLog ? selectedLog.content : ""}
+      />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }} // Center the Snackbar
       />
     </Container>
   );
@@ -110,12 +135,12 @@ function MealLog() {
 
 // Helper function to format date and time
 function formatDateTime(dateTime) {
-  return `${dateTime.toLocaleDateString("en-US", {
+  return `${new Date(dateTime).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  })} at ${dateTime.toLocaleTimeString("en-US", {
+  })} at ${new Date(dateTime).toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   })}`;
