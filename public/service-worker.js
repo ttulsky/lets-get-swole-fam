@@ -9,6 +9,7 @@ const urlsToCache = [
   "/static/js/bundle.js",
 ];
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -17,6 +18,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
@@ -28,6 +30,7 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(

@@ -1,20 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
-body {
-  margin: 0;
-  font-family: "Roboto", sans-serif;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-  color: #040404;
-
-  align-items: flex-start; /* Align items at the start of the page */
-  height: 100vh; /* Ensure the body takes full height */
-}
-
 .home-container {
   display: flex;
+  flex-direction: column; /* Add this line */
   align-items: center;
   justify-content: center;
   text-align: center;
+  height: 80vh; /* Ensures the container takes full height */
 }
 
 .content {
@@ -36,7 +26,6 @@ p {
 .App-logo {
   height: 50vmin;
   pointer-events: none;
-  margin-top: 0;
   border-radius: 50%; /* Make the image circular */
   object-fit: cover; /* Ensure the image covers the circle shape */
 }
@@ -47,6 +36,7 @@ p {
     height: 70vmin; /* Increase logo size for mobile */
   }
 }
+
 .a2hs-button {
   display: inline-block; /* Show by default */
   margin-top: 20px;
