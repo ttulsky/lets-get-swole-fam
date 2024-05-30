@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { quotes } from "../quotes";
 import "./Home.css";
 
 function Home() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isVisible, setIsVisible] = useState(false); // Initially set to false
+  const [isVisible, setIsVisible] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [quote, setQuote] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    // Check if the app is already installed
     if (
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone
@@ -17,7 +19,7 @@ function Home() {
       const handleBeforeInstallPrompt = (e) => {
         e.preventDefault();
         setDeferredPrompt(e);
-        setIsVisible(true); // Show the button if the app is not installed
+        setIsVisible(true);
       };
 
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -46,6 +48,21 @@ function Home() {
     }
   };
 
+  const getRandomQuote = () => {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    return quotes[randomIndex];
+  };
+
+  const handleImageClick = () => {
+    const randomQuote = getRandomQuote();
+    setQuote(randomQuote);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <div className="home-container">
       <div className="content">
@@ -57,7 +74,13 @@ function Home() {
           tools and tips to elevate your physical, mental, emotional, and
           spiritual health. Let's get swole, fam!
         </p>
-        <img src="../fitness.webp" className="App-logo" alt="logo" />
+        <img
+          src="../fitness.webp"
+          className="App-logo"
+          alt="logo"
+          onClick={handleImageClick}
+          style={{ cursor: "pointer" }}
+        />
         {isInstalled ? (
           <p className="install-message"></p>
         ) : (
@@ -66,6 +89,13 @@ function Home() {
               Download the App
             </button>
           )
+        )}
+        {modalOpen && (
+          <div className="modal" onClick={handleCloseModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <p>{quote}</p>
+            </div>
+          </div>
         )}
       </div>
     </div>
