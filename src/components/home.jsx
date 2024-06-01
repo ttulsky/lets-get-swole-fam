@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { quotes } from "../quotes";
 import "./Home.css";
+import "./modal.css";
 
 function Home() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);

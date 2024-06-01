@@ -1,0 +1,13 @@
+/* modal.css */
+.modal-content {
+  max-height: 60vh; /* Adjust this as needed */
+  overflow-y: auto;
+}
+
+ul {
+  padding-left: 20px; /* Add some padding for the list */
+}
+
+ul li {
+  margin-bottom: 10px;
+}

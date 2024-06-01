@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Box, Typography, Button } from "@mui/material";
+import { Modal, Button, Typography, Box } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -13,34 +13,49 @@ const style = {
   boxShadow: 24,
   p: 4,
   borderRadius: 10, // Add rounded edges
+  maxHeight: "80vh", // Set a max height for the modal
+  overflowY: "auto", // Enable vertical scrolling
 };
 
-const LogModal = ({ open, handleClose, date, content }) => {
+function LogsModal({ open, handleClose, logs, onLogClick }) {
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby="logs-modal-title"
+      aria-describedby="logs-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {date}
+        <Typography id="logs-modal-title" variant="h6">
+          Logs for Selected Date
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {content}
-        </Typography>
-        <Button
-          onClick={handleClose}
-          variant="contained"
-          color="primary"
-          style={{ marginTop: 20 }}
-        >
-          Close
-        </Button>
+        <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+          <ul>
+            {logs.map((log) => (
+              <li key={log.id}>
+                <Button onClick={() => onLogClick(log)}>
+                  Workout | {formatDateTime(log.dateTime)}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </Box>
       </Box>
     </Modal>
   );
-};
+}
 
-export default LogModal;
+// Helper function to format date and time
+function formatDateTime(dateTime) {
+  return `${dateTime.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })} at ${dateTime.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+}
+
+export default LogsModal;

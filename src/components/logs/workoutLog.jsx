@@ -6,8 +6,9 @@ import {
   Typography,
   Paper,
   Snackbar,
+  Modal,
+  Box,
 } from "@mui/material";
-import LogModal from "../modal/modal";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
@@ -18,7 +19,9 @@ function WorkoutLog() {
   const { currentUser } = useContext(AuthContext);
   const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
+  const [dateLogs, setDateLogs] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [logDetailOpen, setLogDetailOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -69,13 +72,23 @@ function WorkoutLog() {
     }
   };
 
-  const handleOpenModal = (log) => {
-    setSelectedLog(log);
+  const handleDateClick = (date) => {
+    const dateLogs = logs.filter(
+      (log) => log.dateTime.toDateString() === date.toDateString()
+    );
+    setDateLogs(dateLogs);
     setModalOpen(true);
+  };
+
+  const handleOpenLogDetail = (log) => {
+    setSelectedLog(log);
+    setLogDetailOpen(true);
+    setModalOpen(false);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    setLogDetailOpen(false);
     setSelectedLog(null);
   };
 
@@ -103,25 +116,37 @@ function WorkoutLog() {
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Add Log
         </Button>
-        <Typography variant="h6" style={{ marginTop: 20 }}>
-          Your Logs:
-        </Typography>
-        <ul>
-          {logs.map((log) => (
-            <li key={log.id}>
-              <Button onClick={() => handleOpenModal(log)}>
-                Workout | {formatDateTime(log.dateTime)}
-              </Button>
-            </li>
-          ))}
-        </ul>
+        <LogCalendar logs={logs} onDateClick={handleDateClick} />
       </Paper>
-      <LogModal
-        open={modalOpen}
-        handleClose={handleCloseModal}
-        date={selectedLog ? formatDateTime(selectedLog.dateTime) : ""}
-        content={selectedLog ? selectedLog.content : ""}
-      />
+
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box sx={modalStyle}>
+          <Typography variant="h6">Logs for Selected Date:</Typography>
+          <ul>
+            {dateLogs.map((log) => (
+              <li key={log.id}>
+                <Button onClick={() => handleOpenLogDetail(log)}>
+                  Workout | {formatDateTime(log.dateTime)}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      </Modal>
+
+      <Modal open={logDetailOpen} onClose={handleCloseModal}>
+        <Box sx={modalStyle}>
+          {selectedLog && (
+            <>
+              <Typography variant="h6">
+                {formatDateTime(selectedLog.dateTime)}
+              </Typography>
+              <Typography>{selectedLog.content}</Typography>
+            </>
+          )}
+        </Box>
+      </Modal>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -145,5 +170,18 @@ function formatDateTime(dateTime) {
     minute: "2-digit",
   })}`;
 }
+
+// Modal styles
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default WorkoutLog;

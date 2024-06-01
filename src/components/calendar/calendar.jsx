@@ -3,7 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./LogCalendar.css"; // Custom CSS for styling
 
-const LogCalendar = ({ logs }) => {
+const LogCalendar = ({ logs, onDateClick }) => {
   const datesWithLogs = logs.map((log) =>
     new Date(log.dateTime).toDateString()
   );
@@ -17,7 +17,7 @@ const LogCalendar = ({ logs }) => {
 
   return (
     <div className="log-calendar-container">
-      <Calendar tileContent={tileContent} />
+      <Calendar tileContent={tileContent} onClickDay={onDateClick} />
     </div>
   );
 };
