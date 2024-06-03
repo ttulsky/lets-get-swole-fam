@@ -11,6 +11,7 @@ import MealLog from "./components/logs/mealLogs";
 import MeditationTimer from "./components/meditation/meditationTimer";
 import ContactUs from "./components/contact/contact";
 import Resources from "./components/resources/resources";
+import YogaResources from "./components/yoga/yoga";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/meditationTimer" element={<MeditationTimer />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/yoga" element={<YogaResources />} />
       </Routes>
       <Footer />
     </div>

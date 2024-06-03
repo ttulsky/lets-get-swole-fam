@@ -69,6 +69,9 @@ function Header() {
           <MenuItem onClick={() => handleNavigate("/meditationTimer")}>
             Meditation Timer
           </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/yoga")}>
+            Yoga Practice
+          </MenuItem>
           <MenuItem onClick={() => handleNavigate("/resources")}>
             Swole Resources
           </MenuItem>
