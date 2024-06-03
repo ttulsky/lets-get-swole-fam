@@ -37,6 +37,7 @@ const videos = [
 function YogaResources() {
   return (
     <Container>
+      <br />
       <Typography variant="h4" gutterBottom>
         Yoga Resources
       </Typography>
