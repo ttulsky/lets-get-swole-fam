@@ -41,27 +41,44 @@ function YogaResources() {
         Yoga Resources
       </Typography>
       <Typography variant="body1" gutterBottom>
-        {" "}
         Here we have some vetted yoga resources! Explore these carefully
         selected yoga clips to help you relax, improve your flexibility and
         posture.
       </Typography>
       <hr />
-      {videos.map((video) => (
-        <Box key={video.id} mb={4}>
-          <Typography variant="h6">{video.title}</Typography>
-          <iframe
-            width="100%"
-            height="250" // Shorter rectangular shape
-            src={video.url}
-            title={video.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ borderRadius: "10px" }}
-          ></iframe>
-        </Box>
-      ))}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+          gap: 4,
+        }}
+      >
+        {videos.map((video) => (
+          <Box
+            key={video.id}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">{video.title}</Typography>
+            <Box
+              component="iframe"
+              src={video.url}
+              title={video.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              sx={{
+                width: "100%",
+                height: { xs: 250, md: 300 },
+                borderRadius: "10px",
+              }}
+            ></Box>
+          </Box>
+        ))}
+      </Box>
     </Container>
   );
 }
