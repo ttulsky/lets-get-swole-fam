@@ -31,9 +31,13 @@ p {
   height: 50vmin;
   pointer-events: auto;
   border-radius: 50%; /* Make the image circular */
-  object-fit: cover; /* Ensure the image covers the circle shape */
+  /* object-fit: cover; might make the img shift */
+  object-position: center;
   cursor: pointer;
   max-width: 100%; /* Ensure image does not overflow */
+}
+.App-logo:hover {
+  transform: scale(1.002); /* Slightly enlarge on hover */
 }
 
 .test-button {
@@ -103,4 +107,36 @@ p {
   max-height: 90%; /* Limit the height */
   overflow-y: auto; /* Add scroll if content overflows */
   text-align: center;
+}
+.glowing-image {
+  position: relative;
+  display: inline-block;
+}
+
+.glowing-image::before {
+  content: "";
+  position: absolute;
+  top: 49.5%;
+  left: 50%;
+  width: 100.1%;
+  height: 100.1%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 128, 255, 0.6),
+    rgba(0, 0, 255, 0.3),
+    transparent
+  );
+  border-radius: 50%;
+  z-index: -1;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0, 128, 255, 1);
+  }
 }

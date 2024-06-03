@@ -48,3 +48,30 @@
 .grid-item a:hover {
   text-decoration: underline;
 }
+.glowing-image-card::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 93%;
+  height: 93%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 128, 255, 0.6),
+    rgba(0, 0, 255, 0.3),
+    transparent
+  );
+  border-radius: 5%;
+  z-index: -1;
+  animation: glow 4s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0, 128, 255, 1);
+  }
+}

@@ -5,7 +5,7 @@ const Resources = () => {
     <div className="resources-container">
       <h1>Wellness Resources</h1>
       <div className="grid">
-        <div className="grid-item">
+        <div className="grid-item glowing-image glowing-image-card">
           <h2>Physical Wellness</h2>
           <ul>
             <li>
@@ -38,7 +38,7 @@ const Resources = () => {
           </ul>
         </div>
 
-        <div className="grid-item">
+        <div className="grid-item glowing-image glowing-image-card">
           <h2>Mental Wellness</h2>
           <ul>
             <li>
@@ -71,7 +71,7 @@ const Resources = () => {
           </ul>
         </div>
 
-        <div className="grid-item">
+        <div className="grid-item glowing-image glowing-image-card">
           <h2>Spiritual Wellness</h2>
           <ul>
             <li>
@@ -104,7 +104,7 @@ const Resources = () => {
           </ul>
         </div>
 
-        <div className="grid-item">
+        <div className="grid-item  glowing-image glowing-image-card">
           <h2>Swole Foods</h2>
           <ul>
             <li>

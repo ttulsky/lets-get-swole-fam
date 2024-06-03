@@ -75,13 +75,15 @@ function Home() {
           tools and tips to elevate your physical, mental, emotional, and
           spiritual health. Let's get swole, fam!
         </p>
-        <img
-          src="../fitness.webp"
-          className="App-logo"
-          alt="logo"
-          onClick={handleImageClick}
-          style={{ cursor: "pointer" }}
-        />
+        <div className="glowing-image">
+          <img
+            src="../fitness.webp"
+            className="App-logo"
+            alt="logo"
+            onClick={handleImageClick}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
         {isInstalled ? (
           <p className="install-message"></p>
         ) : (
