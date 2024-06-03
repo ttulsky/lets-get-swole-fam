@@ -79,6 +79,7 @@ function YogaResources() {
           </Box>
         ))}
       </Box>
+      <hr />
     </Container>
   );
 }
