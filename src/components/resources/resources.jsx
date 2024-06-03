@@ -80,7 +80,7 @@ const Resources = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Spiritual Teacniques
+                Spiritual Techniques
               </a>
             </li>
             <li>

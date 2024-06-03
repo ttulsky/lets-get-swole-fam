@@ -6,7 +6,9 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 80vh; /* Ensures the container takes full height */
+  min-height: 100vh; /* Ensures the container takes full height */
+  padding-bottom: 20px; /* Add padding to the bottom */
+  overflow-y: auto; /* Allow vertical scrolling */
 }
 
 .content {
@@ -31,6 +33,7 @@ p {
   border-radius: 50%; /* Make the image circular */
   object-fit: cover; /* Ensure the image covers the circle shape */
   cursor: pointer;
+  max-width: 100%; /* Ensure image does not overflow */
 }
 
 .test-button {
@@ -97,5 +100,7 @@ p {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   max-width: 90%;
+  max-height: 90%; /* Limit the height */
+  overflow-y: auto; /* Add scroll if content overflows */
   text-align: center;
 }
