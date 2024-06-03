@@ -73,7 +73,7 @@ function Header() {
             Yoga Practice
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/resources")}>
-            Swole Resources
+            Wellness Resources
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/contact")}>
             Contact
