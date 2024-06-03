@@ -14,6 +14,7 @@ import { firestore } from "../../firebase-config";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
+import LogsModal from "../modal/modal"; // Import the new LogsModal component
 import "./meditation.css";
 
 const modalStyle = {
@@ -21,13 +22,15 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
+  maxWidth: 600,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "none",
   boxShadow: 24,
   p: 4,
-  overflow: "auto",
+  borderRadius: 10,
   maxHeight: "80vh",
+  overflowY: "auto",
 };
 
 function MeditationTimer() {
@@ -255,24 +258,12 @@ function MeditationTimer() {
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
       </Paper>
 
-      <Modal open={modalOpen} onClose={handleCloseModal}>
-        <Box sx={modalStyle}>
-          <Typography variant="h6">Logs for Selected Date:</Typography>
-          <ul>
-            {dateLogs.length ? (
-              dateLogs.map((log) => (
-                <li key={log.id}>
-                  <Button onClick={() => handleOpenLogDetail(log)}>
-                    Meditation | {formatDateTime(log.dateTime)}
-                  </Button>
-                </li>
-              ))
-            ) : (
-              <Typography>No logs for this date</Typography>
-            )}
-          </ul>
-        </Box>
-      </Modal>
+      <LogsModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        logs={dateLogs}
+        onLogClick={handleOpenLogDetail}
+      />
 
       <Modal open={logDetailOpen} onClose={handleCloseModal}>
         <Box sx={modalStyle}>

@@ -30,14 +30,25 @@ function LogsModal({ open, handleClose, logs, onLogClick }) {
           Logs for Selected Date
         </Typography>
         <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
-          <ul>
-            {logs.map((log) => (
-              <li key={log.id}>
-                <Button onClick={() => onLogClick(log)}>
-                  Workout | {formatDateTime(log.dateTime)}
-                </Button>
-              </li>
-            ))}
+          <ul style={{ padding: 0, listStyle: "none" }}>
+            {logs &&
+              logs.map(
+                (log) =>
+                  log && (
+                    <li key={log.id}>
+                      <Button
+                        onClick={() => onLogClick(log)}
+                        style={{
+                          display: "block",
+                          textAlign: "left",
+                          width: "100%",
+                        }}
+                      >
+                        {`Workout | ${formatDateTime(log.dateTime)}`}
+                      </Button>
+                    </li>
+                  )
+              )}
           </ul>
         </Box>
       </Box>
