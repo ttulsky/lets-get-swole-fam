@@ -61,21 +61,31 @@ function Header() {
           onClose={handleClose}
         >
           <MenuItem onClick={() => handleNavigate("/workoutLog")}>
-            Work Out Logs
+            <img src="../dumbell.png" alt="logo" className="icon-small" />
+            Work Out Logs{" "}
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/mealLogs")}>
+            <img src="../apple.png" alt="logo" className="icon-small" />
             Meal Logs
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/meditationTimer")}>
+            <img src="../game-boy.png" alt="logo" className="icon-small" />
             Meditation Timer
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/yoga")}>
+            <img src="../yoga-meditate.png" alt="logo" className="icon-small" />
             Yoga Practice
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/resources")}>
+            <img
+              src="../heart-drip-weight.png"
+              alt="logo"
+              className="icon-small"
+            />
             Wellness Resources
           </MenuItem>
           <MenuItem onClick={() => handleNavigate("/contact")}>
+            <img src="../Heart.png" alt="logo" className="icon-small" />
             Contact
           </MenuItem>
         </Menu>

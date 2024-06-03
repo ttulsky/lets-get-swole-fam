@@ -9,3 +9,23 @@
     display: none; /* Hide on mobile */
   }
 }
+.icon-small {
+  width: 7%; /* Default for desktop */
+  height: auto;
+  margin-right: 10px;
+  border-radius: 50%; /* Make the image circular */
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 968px) {
+  .icon-small {
+    width: 7%; /* Adjust size for tablets and mobile devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .icon-small {
+    width: 7%; /* Adjust size for smaller mobile devices */
+  }
+}
