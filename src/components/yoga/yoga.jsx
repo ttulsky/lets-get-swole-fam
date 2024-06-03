@@ -42,9 +42,9 @@ function YogaResources() {
       </Typography>
       <Typography variant="body1" gutterBottom>
         {" "}
-        Here we have some vetted Yoga resources from some of our Swole Fam!
-        Explore these carefully selected yoga clips to help you relax and
-        improve your flexibility and posture.
+        Here we have some vetted yoga resources! Explore these carefully
+        selected yoga clips to help you relax, improve your flexibility and
+        posture.
       </Typography>
       <hr />
       {videos.map((video) => (
