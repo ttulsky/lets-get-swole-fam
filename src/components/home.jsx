@@ -79,7 +79,7 @@ const Home = () => {
       <div className="content">
         <h1>Welcome to Swole Wellness</h1>
         <p>
-          Your ultimate resource for whole body wellness! Lets nurtures your
+          Your ultimate resource for whole body wellness! Lets nurture your
           mind, body, and spirit. Whether you're pumping iron, finding inner
           peace, or building good habits, we've got the tools and tips to
           elevate your physical, mental, emotional, and spiritual health. Let's

@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-app-cache";
+const CACHE_NAME = "my-app-cache-v1";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -7,8 +7,10 @@ const urlsToCache = [
   "/logo512.png",
   "/manifest.json",
   "/static/js/bundle.js",
+  // Add other assets you want to cache here
 ];
 
+// Install event - cache assets
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -18,18 +20,17 @@ self.addEventListener("install", (event) => {
   );
 });
 
+// Fetch event - serve cached content when offline
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request);
+      return response || fetch(event.request);
     })
   );
 });
 
+// Activate event - clean up old caches
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [CACHE_NAME];

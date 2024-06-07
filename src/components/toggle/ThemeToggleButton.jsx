@@ -7,7 +7,11 @@ const ThemeToggleButton = () => {
   const { mode, toggleTheme } = useTheme();
 
   return (
-    <Button variant="contained" onClick={toggleTheme}>
+    <Button
+      variant="contained"
+      onClick={toggleTheme}
+      sx={{ fontSize: "0.75rem", padding: "4px 8px" }}
+    >
       {mode === "dark" ? "Light" : "Dark"} Mode
     </Button>
   );

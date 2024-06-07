@@ -13,6 +13,9 @@ import { auth, firestore } from "../firebase-config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useTheme } from "@mui/material/styles";
@@ -95,6 +98,50 @@ const Login = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Fetch or create user data
+      const userDoc = await getDoc(doc(firestore, "users", user.uid));
+      if (!userDoc.exists()) {
+        await setDoc(doc(firestore, "users", user.uid), {
+          name: user.displayName,
+          email: user.email,
+        });
+      }
+
+      setSnackbarMessage("Login with Google successful!");
+      setSnackbarOpen(true);
+      localStorage.setItem("authToken", user.accessToken);
+      navigate("/");
+    } catch (error) {
+      console.error("Google sign-in failed:", error);
+      setSnackbarMessage("Google sign-in failed. Please try again.");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setSnackbarMessage("Please enter your email address.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSnackbarMessage("Password reset email sent!");
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Password reset failed:", error);
+      setSnackbarMessage("Password reset failed. Please try again.");
+      setSnackbarOpen(true);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -167,10 +214,30 @@ const Login = () => {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 1, mb: 1 }}
             onClick={handleOpen}
           >
             Sign Up
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, mb: 1 }}
+            onClick={handleGoogleSignIn}
+          >
+            Sign in with Google
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="text"
+            color="primary"
+            sx={{ mt: 1, mb: 1 }}
+            onClick={handlePasswordReset}
+          >
+            Forgot Password?
           </Button>
         </Box>
         <Modal open={open} onClose={handleClose}>
@@ -248,6 +315,15 @@ const Login = () => {
               onClick={handleSignUp}
             >
               Sign Up
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, mb: 1 }}
+              onClick={handleGoogleSignIn}
+            >
+              Sign up with Google
             </Button>
           </Box>
         </Modal>
