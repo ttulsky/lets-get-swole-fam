@@ -1,11 +1,15 @@
 import React from "react";
+import { Paper, Typography } from "@mui/material";
 import "./resources.css";
+
 const Resources = () => {
   return (
     <div className="resources-container">
-      <h1>Wellness Resources</h1>
+      <Typography variant="h4" gutterBottom>
+        Wellness Resources
+      </Typography>
       <div className="grid">
-        <div className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item glowing-image glowing-image-card">
           <h2>Physical Wellness</h2>
           <ul>
             <li>
@@ -36,9 +40,9 @@ const Resources = () => {
               </a>
             </li>
           </ul>
-        </div>
+        </Paper>
 
-        <div className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item glowing-image glowing-image-card">
           <h2>Mental Wellness</h2>
           <ul>
             <li>
@@ -69,9 +73,9 @@ const Resources = () => {
               </a>
             </li>
           </ul>
-        </div>
+        </Paper>
 
-        <div className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item glowing-image glowing-image-card">
           <h2>Spiritual Wellness</h2>
           <ul>
             <li>
@@ -102,9 +106,9 @@ const Resources = () => {
               </a>
             </li>
           </ul>
-        </div>
+        </Paper>
 
-        <div className="grid-item  glowing-image glowing-image-card">
+        <Paper className="grid-item glowing-image glowing-image-card">
           <h2>Swole Foods</h2>
           <ul>
             <li>
@@ -135,7 +139,7 @@ const Resources = () => {
               </a>
             </li>
           </ul>
-        </div>
+        </Paper>
       </div>
     </div>
   );

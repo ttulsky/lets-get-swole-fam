@@ -1,3 +1,4 @@
+/* LogCalendar.css */
 .log-calendar-container {
   display: flex;
   justify-content: center;
@@ -38,4 +39,65 @@
     210,
     0.4
   ); /* Darker blue for the active day matching Material-UI primary color */
+}
+
+.react-calendar {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.react-calendar__navigation button {
+  color: var(--text-color);
+}
+
+.react-calendar__navigation button:disabled {
+  color: var(--text-color);
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  color: var(--text-color);
+}
+
+/* Dark mode styles */
+.dark-mode .react-calendar {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.23);
+}
+
+.dark-mode .react-calendar__tile {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+.dark-mode .react-calendar__month-view__days__day--weekend {
+  color: #ffffff !important; /* Change weekend text color to white */
+}
+
+.dark-mode .react-calendar__tile--now {
+  background: #555555 !important; /* Make the current day transparent */
+}
+
+.dark-mode .react-calendar__navigation button {
+  color: #ffffff;
+}
+
+.dark-mode .react-calendar__navigation button:disabled {
+  color: #777777;
+}
+
+.dark-mode .react-calendar__month-view__weekdays__weekday {
+  color: #bbbbbb;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Dark mode styles for modal */
+.dark-mode .modal-content {
+  background-color: #444444;
+  color: #ffffff;
 }

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { quotes } from "../quotes";
+import { Modal, Box, Typography, useTheme } from "@mui/material";
 import "./Home.css";
-import "./modal.css";
+import { headlines } from "../headlines";
 
-function Home() {
+const Home = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [quote, setQuote] = useState("");
+  const [headline, setHeadline] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     if (
@@ -54,9 +57,16 @@ function Home() {
     return quotes[randomIndex];
   };
 
+  const getRandomHeadline = () => {
+    const randomIndex = Math.floor(Math.random() * headlines.length);
+    return headlines[randomIndex];
+  };
+
   const handleImageClick = () => {
     const randomQuote = getRandomQuote();
+    const randomHeadline = getRandomHeadline();
     setQuote(randomQuote);
+    setHeadline(randomHeadline);
     setModalOpen(true);
   };
 
@@ -69,15 +79,15 @@ function Home() {
       <div className="content">
         <h1>Welcome to Swole Wellness</h1>
         <p>
-          Your ultimate resource for whole body wellness! Dive into a journey
-          that nurtures your mind, body, and spirit. Whether you're pumping
-          iron, finding inner peace, or building good habits, we've got the
-          tools and tips to elevate your physical, mental, emotional, and
-          spiritual health. Let's get swole, fam!
+          Your ultimate resource for whole body wellness! Lets nurtures your
+          mind, body, and spirit. Whether you're pumping iron, finding inner
+          peace, or building good habits, we've got the tools and tips to
+          elevate your physical, mental, emotional, and spiritual health. Let's
+          get swole, fam!
         </p>
         <div className="glowing-image">
           <img
-            src="../fitness.webp"
+            src="../fitness.png"
             className="App-logo"
             alt="logo"
             onClick={handleImageClick}
@@ -93,16 +103,32 @@ function Home() {
             </button>
           )
         )}
-        {modalOpen && (
-          <div className="modal" onClick={handleCloseModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <p>{quote}</p>
-            </div>
-          </div>
-        )}
+        <Modal open={modalOpen} onClose={handleCloseModal}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "80%",
+              maxWidth: 600,
+              bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
+              border: "none",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: 10,
+              maxHeight: "80vh",
+              overflowY: "auto",
+              color: theme.palette.text.primary,
+            }}
+          >
+            <Typography variant="h6">{headline}</Typography>
+            <Typography>{quote}</Typography>
+          </Box>
+        </Modal>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

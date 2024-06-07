@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
+import "./yoga.css";
 
 const videos = [
   {
@@ -36,8 +37,9 @@ const videos = [
 
 function YogaResources() {
   return (
-    <Container>
+    <Container className="yoga-container">
       <br />
+
       <Typography variant="h4" gutterBottom>
         Yoga Resources
       </Typography>
@@ -46,6 +48,7 @@ function YogaResources() {
         selected yoga clips to help you relax, improve your flexibility and
         posture.
       </Typography>
+
       <hr />
       <Box
         sx={{

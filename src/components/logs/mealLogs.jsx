@@ -8,13 +8,16 @@ import {
   Snackbar,
   Modal,
   Box,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
 import LogsModal from "../modal/modal";
+import { useTheme } from "@mui/material/styles";
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -40,6 +43,7 @@ function MealLog() {
   const [selectedLog, setSelectedLog] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const theme = useTheme();
 
   useEffect(() => {
     if (currentUser) {
@@ -142,15 +146,38 @@ function MealLog() {
       />
 
       <Modal open={logDetailOpen} onClose={handleCloseModal}>
-        <Box sx={modalStyle}>
-          {selectedLog && (
-            <>
-              <Typography variant="h6">
-                {formatDateTime(selectedLog.dateTime)}
-              </Typography>
-              <Typography>{selectedLog.content}</Typography>
-            </>
-          )}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            maxWidth: 600,
+            bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
+            border: "none",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 10,
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">
+              {selectedLog && formatDateTime(selectedLog.dateTime)}
+            </Typography>
+            <IconButton onClick={handleCloseModal}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          {selectedLog && <Typography>{selectedLog.content}</Typography>}
         </Box>
       </Modal>
 

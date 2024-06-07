@@ -11,6 +11,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../authContext";
+import ThemeToggleButton from "./toggle/ThemeToggleButton";
 import "./header.css";
 
 function Header() {
@@ -59,6 +60,7 @@ function Header() {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          sx={{ "& .MuiPaper-root": { width: "200px" } }}
         >
           <MenuItem onClick={() => handleNavigate("/workoutLog")}>
             <img src="../dumbell.png" alt="logo" className="icon-small" />
@@ -89,6 +91,7 @@ function Header() {
             Contact
           </MenuItem>
         </Menu>
+        <ThemeToggleButton /> {/* Add Theme Toggle Button */}
         <Typography
           variant="h6"
           component="div"
@@ -101,7 +104,7 @@ function Header() {
             sx={{ marginRight: 2 }}
             className="welcome-message"
           >
-            Welcome back {userName}!
+            Welcome back!
           </Typography>
         )}
         <Button color="inherit" onClick={() => handleNavigate("/")}>

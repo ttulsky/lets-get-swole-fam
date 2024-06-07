@@ -1,13 +1,23 @@
 /* Home.css */
+:root {
+  --background-color: #000125; /* Dark background color */
+  --text-color: #000000; /* Light text color for contrast */
+  --secondary-background-color: #1f1f1f; /* Slightly lighter dark color for secondary elements */
+  --accent-color: #bb86fc; /* Accent color for highlights */
+}
 
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center to flex-start */
   text-align: center;
   min-height: 100vh; /* Ensures the container takes full height */
-  padding-bottom: 20px; /* Add padding to the bottom */
+  padding-top: 10px; /* Add padding to the top to create space from the header */
   overflow-y: auto; /* Allow vertical scrolling */
 }
 
@@ -107,7 +117,9 @@ p {
   max-height: 90%; /* Limit the height */
   overflow-y: auto; /* Add scroll if content overflows */
   text-align: center;
+  color: #000000;
 }
+
 .glowing-image {
   position: relative;
   display: inline-block;

@@ -15,6 +15,8 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useTheme } from "@mui/material/styles";
+import "./login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,6 +27,7 @@ const Login = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -94,19 +97,25 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <div
-        style={{
+      <Box
+        sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#333333" : "#ffffff",
+          padding: 3,
+          borderRadius: 1,
+          boxShadow: 3,
         }}
       >
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          style={{ width: "100%", marginTop: 1 }}
+        <Box
+          component="form"
+          sx={{ width: "100%", mt: 1 }}
           onSubmit={(e) => e.preventDefault()}
         >
           <TextField
@@ -119,6 +128,12 @@ const Login = () => {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            InputProps={{
+              style: { color: theme.palette.text.primary },
+            }}
+            InputLabelProps={{
+              style: { color: theme.palette.text.primary },
+            }}
           />
           <TextField
             variant="outlined"
@@ -130,13 +145,19 @@ const Login = () => {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              style: { color: theme.palette.text.primary },
+            }}
+            InputLabelProps={{
+              style: { color: theme.palette.text.primary },
+            }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            style={{ margin: "24px 0px 16px" }}
+            sx={{ mt: 3, mb: 2 }}
             onClick={handleLogin}
           >
             Log In
@@ -146,12 +167,12 @@ const Login = () => {
             fullWidth
             variant="contained"
             color="primary"
-            style={{ margin: "24px 0px 16px" }}
+            sx={{ mt: 3, mb: 2 }}
             onClick={handleOpen}
           >
             Sign Up
           </Button>
-        </form>
+        </Box>
         <Modal open={open} onClose={handleClose}>
           <Box
             sx={{
@@ -160,7 +181,7 @@ const Login = () => {
               left: "50%",
               transform: "translate(-50%, -50%)",
               width: 400,
-              bgcolor: "background.paper",
+              bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
@@ -179,6 +200,12 @@ const Login = () => {
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
+              InputProps={{
+                style: { color: theme.palette.text.primary },
+              }}
+              InputLabelProps={{
+                style: { color: theme.palette.text.primary },
+              }}
             />
             <TextField
               variant="outlined"
@@ -189,6 +216,12 @@ const Login = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              InputProps={{
+                style: { color: theme.palette.text.primary },
+              }}
+              InputLabelProps={{
+                style: { color: theme.palette.text.primary },
+              }}
             />
             <TextField
               variant="outlined"
@@ -200,12 +233,18 @@ const Login = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                style: { color: theme.palette.text.primary },
+              }}
+              InputLabelProps={{
+                style: { color: theme.palette.text.primary },
+              }}
             />
             <Button
               fullWidth
               variant="contained"
               color="primary"
-              style={{ margin: "24px 0px 16px" }}
+              sx={{ mt: 3, mb: 2 }}
               onClick={handleSignUp}
             >
               Sign Up
@@ -218,7 +257,7 @@ const Login = () => {
           onClose={handleSnackbarClose}
           message={snackbarMessage}
         />
-      </div>
+      </Box>
     </Container>
   );
 };

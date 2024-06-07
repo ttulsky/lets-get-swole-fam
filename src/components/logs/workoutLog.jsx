@@ -8,7 +8,10 @@ import {
   Snackbar,
   Modal,
   Box,
+  IconButton,
+  useTheme,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
@@ -16,23 +19,7 @@ import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
 import LogsModal from "../modal/modal";
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80%",
-  maxWidth: 600,
-  bgcolor: "background.paper",
-  border: "none",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 10,
-  maxHeight: "80vh",
-  overflowY: "auto",
-};
-
-function WorkoutLog() {
+const WorkoutLog = () => {
   const { currentUser } = useContext(AuthContext);
   const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
@@ -42,6 +29,7 @@ function WorkoutLog() {
   const [selectedLog, setSelectedLog] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const theme = useTheme();
 
   useEffect(() => {
     if (currentUser) {
@@ -144,15 +132,38 @@ function WorkoutLog() {
       />
 
       <Modal open={logDetailOpen} onClose={handleCloseModal}>
-        <Box sx={modalStyle}>
-          {selectedLog && (
-            <>
-              <Typography variant="h6">
-                {formatDateTime(selectedLog.dateTime)}
-              </Typography>
-              <Typography>{selectedLog.content}</Typography>
-            </>
-          )}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            maxWidth: 600,
+            bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
+            border: "none",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 10,
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">
+              {selectedLog && formatDateTime(selectedLog.dateTime)}
+            </Typography>
+            <IconButton onClick={handleCloseModal}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          {selectedLog && <Typography>{selectedLog.content}</Typography>}
         </Box>
       </Modal>
 
@@ -165,16 +176,16 @@ function WorkoutLog() {
       />
     </Container>
   );
-}
+};
 
 // Helper function to format date and time
 function formatDateTime(dateTime) {
-  return `${new Date(dateTime).toLocaleDateString("en-US", {
+  return `${dateTime.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  })} at ${new Date(dateTime).toLocaleTimeString("en-US", {
+  })} at ${dateTime.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   })}`;

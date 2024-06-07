@@ -10,7 +10,7 @@
   }
 }
 .icon-small {
-  width: 7%; /* Default for desktop */
+  width: 14%; /* Default for desktop */
   height: auto;
   margin-right: 10px;
   border-radius: 50%; /* Make the image circular */
@@ -20,12 +20,12 @@
 
 @media (max-width: 968px) {
   .icon-small {
-    width: 7%; /* Adjust size for tablets and mobile devices */
+    width: 14%; /* Adjust size for tablets and mobile devices */
   }
 }
 
 @media (max-width: 480px) {
   .icon-small {
-    width: 7%; /* Adjust size for smaller mobile devices */
+    width: 14%; /* Adjust size for smaller mobile devices */
   }
 }

@@ -32,6 +32,9 @@
 .App-footer {
   margin-top: auto; /* Pushes the footer to the bottom */
 }
+.App-footer-h {
+  max-height: 20px;
+}
 
 /* Uncomment this if you want to have the logo spin animation */
 /*
