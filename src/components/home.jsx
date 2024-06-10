@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { quotes } from "../quotes";
-import { Modal, Box, Typography, useTheme } from "@mui/material";
+import { Modal, Box, Typography, useTheme, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { headlines } from "../headlines";
 
@@ -12,6 +13,7 @@ const Home = () => {
   const [headline, setHeadline] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (
@@ -74,15 +76,59 @@ const Home = () => {
     setModalOpen(false);
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   return (
     <div className="home-container">
       <div className="content">
-        <h1>Welcome to Swole Wellness</h1>
+        <div className="nav-links">
+          <div className="nav-item">
+            <IconButton
+              onClick={() => handleNavigate("/workoutLog")}
+              className="glowing-image"
+            >
+              <img
+                src="../dumbell.png"
+                alt="Workout Logs"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Workouts</Typography>
+          </div>
+          <div className="nav-item">
+            <IconButton
+              onClick={() => handleNavigate("/mealLogs")}
+              className="glowing-image"
+            >
+              <img
+                src="../apple.png"
+                alt="Meal Logs"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Meals</Typography>
+          </div>
+          <div className="nav-item">
+            <IconButton
+              onClick={() => handleNavigate("/meditationTimer")}
+              className="glowing-image"
+            >
+              <img
+                src="../game-boy.png"
+                alt="Meditation Timer"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Meditations</Typography>
+          </div>
+        </div>
+
         <p>
-          Your ultimate resource for whole body wellness! Lets nurture your
-          mind, body, and spirit. Whether you're pumping iron, finding inner
-          peace, or building good habits, we've got the tools and tips to
-          elevate your physical, mental, emotional, and spiritual health. Let's
+          Your ultimate resource for whole body wellness! Whether you're hitting
+          the gym, meditating, or building better habits, we've got the tools
+          and tips to elevate your physical, mental, and emotional health. Let's
           get swole, fam!
         </p>
         <div className="glowing-image">

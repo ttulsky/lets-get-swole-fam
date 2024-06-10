@@ -38,7 +38,7 @@ const LogsModal = ({ open, handleClose, logs, onLogClick }) => {
           }}
         >
           <Typography id="logs-modal-title" variant="h6">
-            Logs for Selected Date
+            Logs
           </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
@@ -60,7 +60,7 @@ const LogsModal = ({ open, handleClose, logs, onLogClick }) => {
                           color: theme.palette.text.primary,
                         }}
                       >
-                        {`Workout | ${formatDateTime(log.dateTime)}`}
+                        {`${formatDateTime(log.dateTime)}`}
                       </Button>
                     </li>
                   )

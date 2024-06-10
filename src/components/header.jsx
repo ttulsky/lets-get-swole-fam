@@ -43,76 +43,72 @@ function Header() {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          aria-controls="menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Menu
-          id="menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          sx={{ "& .MuiPaper-root": { width: "200px" } }}
-        >
-          <MenuItem onClick={() => handleNavigate("/workoutLog")}>
-            <img src="../dumbell.png" alt="logo" className="icon-small" />
-            Work Out Logs{" "}
-          </MenuItem>
-          <MenuItem onClick={() => handleNavigate("/mealLogs")}>
-            <img src="../apple.png" alt="logo" className="icon-small" />
-            Meal Logs
-          </MenuItem>
-          <MenuItem onClick={() => handleNavigate("/meditationTimer")}>
-            <img src="../game-boy.png" alt="logo" className="icon-small" />
-            Meditation Timer
-          </MenuItem>
-          <MenuItem onClick={() => handleNavigate("/yoga")}>
-            <img src="../yoga-meditate.png" alt="logo" className="icon-small" />
-            Yoga Practice
-          </MenuItem>
-          <MenuItem onClick={() => handleNavigate("/resources")}>
-            <img
-              src="../heart-drip-weight.png"
-              alt="logo"
-              className="icon-small"
-            />
-            Wellness Resources
-          </MenuItem>
-          <MenuItem onClick={() => handleNavigate("/contact")}>
-            <img src="../Heart.png" alt="logo" className="icon-small" />
-            Contact
-          </MenuItem>
-        </Menu>
-        <ThemeToggleButton /> {/* Add Theme Toggle Button */}
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1 }}
-        ></Typography>
-        {currentUser && (
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ marginRight: 2 }}
-            className="welcome-message"
+      <Toolbar className="toolbar">
+        <div className="left-section">
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            aria-controls="menu"
+            aria-haspopup="true"
+            onClick={handleClick}
           >
-            Welcome back!
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            sx={{ "& .MuiPaper-root": { width: "200px" } }}
+          >
+            <MenuItem onClick={() => handleNavigate("/workoutLog")}>
+              <img src="../dumbell.png" alt="logo" className="icon-small" />
+              Work Out Logs{" "}
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigate("/mealLogs")}>
+              <img src="../apple.png" alt="logo" className="icon-small" />
+              Meal Logs
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigate("/meditationTimer")}>
+              <img src="../game-boy.png" alt="logo" className="icon-small" />
+              Meditation Timer
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigate("/yoga")}>
+              <img
+                src="../yoga-meditate.png"
+                alt="logo"
+                className="icon-small"
+              />
+              Yoga Practice
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigate("/resources")}>
+              <img
+                src="../heart-drip-weight.png"
+                alt="logo"
+                className="icon-small"
+              />
+              Wellness Resources
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigate("/contact")}>
+              <img src="../Heart.png" alt="logo" className="icon-small" />
+              Contact
+            </MenuItem>
+          </Menu>
+          <ThemeToggleButton />
+          <Typography variant="h6" component="div" className="swole-wellness">
+            Swole Wellness
           </Typography>
-        )}
-        <Button color="inherit" onClick={() => handleNavigate("/")}>
-          Home
-        </Button>
-        <Button color="inherit" onClick={handleAuthAction}>
-          {currentUser ? "Log Out" : "Login"}
-        </Button>
+        </div>
+        <div className="right-section">
+          <Button color="inherit" onClick={() => handleNavigate("/")}>
+            Home
+          </Button>
+          <Button color="inherit" onClick={handleAuthAction}>
+            {currentUser ? "Log Out" : "Login"}
+          </Button>
+        </div>
       </Toolbar>
     </AppBar>
   );

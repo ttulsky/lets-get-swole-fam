@@ -9,6 +9,7 @@
     display: none; /* Hide on mobile */
   }
 }
+
 .icon-small {
   width: 14%; /* Default for desktop */
   height: auto;
@@ -28,4 +29,49 @@
   .icon-small {
     width: 14%; /* Adjust size for smaller mobile devices */
   }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px; /* Add padding to ensure proper spacing */
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.swole-wellness {
+  white-space: nowrap; /* Prevent text wrapping */
+  font-size: 1.5rem; /* Default font size */
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .swole-wellness {
+    font-size: 1.25rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .swole-wellness {
+    font-size: 1rem !important; /* Adjust font size for very small screens */
+  }
+}
+
+@media (max-width: 300px) {
+  .swole-wellness {
+    font-size: 0.25rem !important; /* Adjust font size for very small screens */
+  }
+}
+
+.right-section > button {
+  padding: 5px 10px; /* Adjust button padding for smaller screens */
+  font-size: 0.675rem; /* Adjust font size for buttons */
 }
