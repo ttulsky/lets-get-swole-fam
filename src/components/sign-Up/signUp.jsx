@@ -34,7 +34,23 @@ const SignUp = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !age ||
+      !height ||
+      !weight ||
+      !sex ||
+      !fitnessGoal
+    ) {
+      navigate("/login");
+    } else {
+      setOpen(false);
+    }
+  };
+
   const handleSnackbarClose = () => setSnackbarOpen(false);
 
   const handleSignUp = async () => {

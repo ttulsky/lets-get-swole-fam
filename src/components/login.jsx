@@ -4,14 +4,12 @@ import {
   TextField,
   Typography,
   Container,
-  Modal,
   Box,
   Snackbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase-config";
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -24,16 +22,11 @@ import "./login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [isSent, setIsSent] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const handleSnackbarClose = () => setSnackbarOpen(false);
 
   const handleLogin = async () => {
@@ -64,36 +57,6 @@ const Login = () => {
       setSnackbarMessage(
         "Login failed. Please check your credentials and try again."
       );
-      setSnackbarOpen(true);
-    }
-  };
-
-  const handleSignUp = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-
-      // Save user data
-      await setDoc(doc(firestore, "users", user.uid), {
-        name,
-        email,
-      });
-
-      handleClose();
-      setIsSent(true);
-      setName("");
-      setEmail("");
-      setPassword("");
-      setSnackbarMessage("Sign-up successful! Please log in.");
-      setSnackbarOpen(true);
-      console.log("Sign-up successful!");
-    } catch (error) {
-      console.error("Sign-up failed:", error);
-      setSnackbarMessage("Sign-up failed. Please try again.");
       setSnackbarOpen(true);
     }
   };
@@ -215,7 +178,7 @@ const Login = () => {
             variant="contained"
             color="primary"
             sx={{ mt: 1, mb: 1 }}
-            onClick={handleOpen}
+            onClick={() => navigate("/signup")}
           >
             Sign Up
           </Button>
@@ -240,93 +203,6 @@ const Login = () => {
             Forgot Password?
           </Button>
         </Box>
-        <Modal open={open} onClose={handleClose}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
-              border: "2px solid #000",
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography variant="h6" component="h2">
-              Sign Up
-            </Typography>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Name"
-              autoComplete="name"
-              autoFocus
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              InputProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-              InputLabelProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Email Address"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              InputProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-              InputLabelProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              InputProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-              InputLabelProps={{
-                style: { color: theme.palette.text.primary },
-              }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleSignUp}
-            >
-              Sign Up
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 1, mb: 1 }}
-              onClick={handleGoogleSignIn}
-            >
-              Sign up with Google
-            </Button>
-          </Box>
-        </Modal>
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
