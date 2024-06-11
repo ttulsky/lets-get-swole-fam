@@ -87,7 +87,7 @@ const Home = () => {
           <div className="nav-item">
             <IconButton
               onClick={() => handleNavigate("/workoutLog")}
-              className="glowing-image"
+              className="glowing-image-icon"
             >
               <img
                 src="../dumbell.png"
@@ -100,7 +100,7 @@ const Home = () => {
           <div className="nav-item">
             <IconButton
               onClick={() => handleNavigate("/mealLogs")}
-              className="glowing-image"
+              className="glowing-image-icon"
             >
               <img
                 src="../apple.png"
@@ -113,7 +113,7 @@ const Home = () => {
           <div className="nav-item">
             <IconButton
               onClick={() => handleNavigate("/meditationTimer")}
-              className="glowing-image"
+              className="glowing-image-icon"
             >
               <img
                 src="../game-boy.png"

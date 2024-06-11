@@ -18,6 +18,7 @@ import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
 import LogsModal from "../modal/modal";
 import { useTheme } from "@mui/material/styles";
+
 const modalStyle = {
   position: "absolute",
   top: "50%",

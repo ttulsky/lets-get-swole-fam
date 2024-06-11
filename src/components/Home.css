@@ -80,6 +80,7 @@ p {
 .icon-small-lp {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
 }
 
 /* Media query for mobile viewports */
@@ -159,6 +160,29 @@ p {
   border-radius: 50%;
   z-index: -1;
   animation: glow 2s infinite alternate;
+}
+.glowing-image-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.glowing-image-icon::before {
+  content: "";
+  position: absolute;
+  top: 49.5%;
+  left: 50%;
+  width: 100.1%;
+  height: 100.1%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 128, 255, 0.6),
+    rgba(0, 0, 255, 0.3),
+    transparent
+  );
+  border-radius: 50%;
+  z-index: -1;
+  box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
 }
 
 @keyframes glow {

@@ -1,7 +1,11 @@
-fix the layout of the wortout logs and meal logs to be in a modaland clickable
+Backlog 6-11
+-lp layout- conider the layout of my fitness pal and how the lp guides the users to sign up to see the features of the app. 
 
-make the contact email real
+-user profile, find a way to create a user profile with basic information, height, weight, age, name, wellness goals, photo, ect. on log in they should be able to view and edit this information. 
 
-set up the login and sign up
+-on log in, change to a different lp or dashboard, you could use some of the dat to disply here for the user, eg you worked out X number of times this week or, you tracked 4 meals this weke and so on.
 
-fix the global h2 css issue
+-get the calorie tracker working
+
+-reasearch more about the firebase blaze account and see if you can set up threshhold alerts so you dont encur costs, getting the info from the api and setting up the calorie tracker will elevate your app. 
+

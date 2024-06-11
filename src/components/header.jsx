@@ -7,9 +7,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Avatar,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../authContext";
 import ThemeToggleButton from "./toggle/ThemeToggleButton";
 import "./header.css";
@@ -17,7 +19,8 @@ import "./header.css";
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
-  const { currentUser, userName, logout } = useContext(AuthContext);
+  const { currentUser, userName, profileImageURL, logout } =
+    useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -97,14 +100,32 @@ function Header() {
             </MenuItem>
           </Menu>
           <ThemeToggleButton />
-          <Typography variant="h6" component="div" className="swole-wellness">
-            Swole Wellness
-          </Typography>
+          <Tooltip title="Home">
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/home"
+              className="swole-wellness"
+              sx={{ textDecoration: "none", color: "inherit" }}
+            >
+              Swole Wellness
+            </Typography>
+          </Tooltip>
         </div>
         <div className="right-section">
-          <Button color="inherit" onClick={() => handleNavigate("/")}>
-            Home
-          </Button>
+          <Tooltip title="My Profile">
+            <Button onClick={() => handleNavigate("/profile")}>
+              {profileImageURL ? (
+                <Avatar
+                  src={profileImageURL}
+                  alt="Profile"
+                  className="icon-small"
+                />
+              ) : (
+                <Avatar className="icon-small">{userName?.charAt(0)}</Avatar>
+              )}
+            </Button>
+          </Tooltip>
           <Button color="inherit" onClick={handleAuthAction}>
             {currentUser ? "Log Out" : "Login"}
           </Button>

@@ -9,7 +9,7 @@ const Resources = () => {
         Wellness Resources
       </Typography>
       <div className="grid">
-        <Paper className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item  glowing-image-card">
           <h2>Physical Wellness</h2>
           <ul>
             <li>
@@ -42,7 +42,7 @@ const Resources = () => {
           </ul>
         </Paper>
 
-        <Paper className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item  glowing-image-card">
           <h2>Mental Wellness</h2>
           <ul>
             <li>
@@ -75,7 +75,7 @@ const Resources = () => {
           </ul>
         </Paper>
 
-        <Paper className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item glowing-image-card">
           <h2>Spiritual Wellness</h2>
           <ul>
             <li>
@@ -108,7 +108,7 @@ const Resources = () => {
           </ul>
         </Paper>
 
-        <Paper className="grid-item glowing-image glowing-image-card">
+        <Paper className="grid-item  glowing-image-card">
           <h2>Swole Foods</h2>
           <ul>
             <li>

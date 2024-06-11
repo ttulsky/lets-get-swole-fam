@@ -51,6 +51,10 @@
   text-decoration: underline;
 }
 
+.glowing-image-card {
+  position: relative;
+  display: inline-block;
+}
 .glowing-image-card::before {
   content: "";
   position: absolute;
@@ -67,7 +71,7 @@
   );
   border-radius: 10px;
   z-index: -1;
-  animation: glow 2s infinite alternate;
+  box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
 }
 
 @keyframes glow {
