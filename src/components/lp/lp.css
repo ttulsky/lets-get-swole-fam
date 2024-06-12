@@ -22,19 +22,16 @@
 }
 
 .lp-image {
-  max-width: 100%;
+  max-width: 60%; /* Set a default max-width for all screen sizes */
   height: auto;
   display: block;
   margin: 0 auto;
 }
 
+/* Media queries for adjusting the image size */
 @media (max-width: 768px) {
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.25rem;
+  .lp-image {
+    max-width: 80%; /* Adjust the width for tablets */
   }
 }
 
@@ -45,5 +42,15 @@
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .lp-image {
+    max-width: 70%; /* Adjust the width for mobile devices */
+  }
+}
+/* Media queries for adjusting the image size */
+@media (max-width: 768px) {
+  .lp-image {
+    max-width: 50%; /* Adjust the width for tablets */
   }
 }
