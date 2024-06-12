@@ -6,26 +6,37 @@ import {
   Grid,
   Paper,
   Modal,
-  Box,
   Avatar,
 } from "@mui/material";
 import { storage, firestore } from "../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import AuthContext from "../../authContext";
 import EditProfile from "./edit-profile";
 import { useTheme } from "@mui/material/styles";
-import "./profile.css";
+import "./profile.css"; // Ensure this import is here
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
+  const [workoutLogsCount, setWorkoutLogsCount] = useState(0);
+  const [mealLogsCount, setMealLogsCount] = useState(0);
+  const [meditationLogsCount, setMeditationLogsCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const theme = useTheme();
 
   useEffect(() => {
     if (currentUser) {
       fetchUserData();
+      fetchLogsCount();
     }
   }, [currentUser]);
 
@@ -34,9 +45,60 @@ const Profile = () => {
       const userDoc = await getDoc(doc(firestore, "users", currentUser.uid));
       if (userDoc.exists()) {
         setUserData(userDoc.data());
+      } else {
+        console.error("User data not found!");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+
+  const fetchLogsCount = async () => {
+    try {
+      if (!currentUser) {
+        console.error("Current user is not available");
+        return;
+      }
+      console.log("Fetching logs count for user:", currentUser.uid);
+
+      const workoutLogsQuery = query(
+        collection(firestore, `users/${currentUser.uid}/workoutLogs`),
+        where("userId", "==", currentUser.uid)
+      );
+      const mealLogsQuery = query(
+        collection(firestore, `users/${currentUser.uid}/mealLogs`),
+        where("userId", "==", currentUser.uid)
+      );
+      const meditationLogsQuery = query(
+        collection(firestore, `users/${currentUser.uid}/meditationLogs`),
+        where("userId", "==", currentUser.uid)
+      );
+
+      const workoutLogsSnapshot = await getDocs(workoutLogsQuery);
+      const mealLogsSnapshot = await getDocs(mealLogsQuery);
+      const meditationLogsSnapshot = await getDocs(meditationLogsQuery);
+
+      console.log("Workout Logs Snapshot:", workoutLogsSnapshot.docs);
+      console.log(
+        "Workout Logs Data:",
+        workoutLogsSnapshot.docs.map((doc) => doc.data())
+      );
+      console.log("Meal Logs Snapshot:", mealLogsSnapshot.docs);
+      console.log(
+        "Meal Logs Data:",
+        mealLogsSnapshot.docs.map((doc) => doc.data())
+      );
+      console.log("Meditation Logs Snapshot:", meditationLogsSnapshot.docs);
+      console.log(
+        "Meditation Logs Data:",
+        meditationLogsSnapshot.docs.map((doc) => doc.data())
+      );
+
+      setWorkoutLogsCount(workoutLogsSnapshot.size);
+      setMealLogsCount(mealLogsSnapshot.size);
+      setMeditationLogsCount(meditationLogsSnapshot.size);
+    } catch (error) {
+      console.error("Error fetching logs count:", error);
     }
   };
 
@@ -118,6 +180,27 @@ const Profile = () => {
           <Grid item xs={12}>
             <Typography variant="h6">Fitness Goal:</Typography>
             <Typography variant="body1">{userData.fitnessGoal}</Typography>
+          </Grid>
+        </Grid>
+        <Typography
+          variant="h5"
+          component="h2"
+          style={{ marginTop: 20, textAlign: "left" }}
+        >
+          My Total Wellness Logs
+        </Typography>
+        <Grid container spacing={2} style={{ marginTop: 10 }}>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6">Workout Logs:</Typography>
+            <Typography variant="body1">{workoutLogsCount}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6">Meal Logs:</Typography>
+            <Typography variant="body1">{mealLogsCount}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6">Meditation Logs:</Typography>
+            <Typography variant="body1">{meditationLogsCount}</Typography>
           </Grid>
         </Grid>
         <Button

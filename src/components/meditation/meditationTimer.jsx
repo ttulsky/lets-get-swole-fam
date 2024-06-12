@@ -89,6 +89,7 @@ function MeditationTimer() {
       const newLog = {
         content: note,
         dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
+        userId: currentUser.uid, // Include userId
       };
       await addDoc(
         collection(firestore, `users/${currentUser.uid}/meditationLogs`),

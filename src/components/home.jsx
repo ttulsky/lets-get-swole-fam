@@ -95,7 +95,7 @@ const Home = () => {
                 className="icon-small-lp"
               />
             </IconButton>
-            <Typography variant="body2">Workouts</Typography>
+            <Typography variant="body2">Workout</Typography>
           </div>
           <div className="nav-item">
             <IconButton
@@ -121,7 +121,7 @@ const Home = () => {
                 className="icon-small-lp"
               />
             </IconButton>
-            <Typography variant="body2">Meditations</Typography>
+            <Typography variant="body2">Meditate</Typography>
           </div>
         </div>
 

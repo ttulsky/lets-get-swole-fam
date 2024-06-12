@@ -34,6 +34,7 @@ const modalStyle = {
   maxHeight: "80vh",
   overflowY: "auto",
 };
+
 function MealLog() {
   const { currentUser } = useContext(AuthContext);
   const [note, setNote] = useState("");
@@ -82,6 +83,7 @@ function MealLog() {
       const newLog = {
         content: note,
         dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
+        userId: currentUser.uid, // Include userId
       };
       await addDoc(
         collection(firestore, `users/${currentUser.uid}/mealLogs`),
@@ -205,4 +207,5 @@ function formatDateTime(dateTime) {
     minute: "2-digit",
   })}`;
 }
+
 export default MealLog;

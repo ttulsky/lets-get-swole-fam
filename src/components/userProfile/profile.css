@@ -1,3 +1,4 @@
+/* profile.css */
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -83,4 +84,17 @@
 
 .profile-paper .MuiGrid-item p {
   margin: 0;
+}
+
+/* Add this section for mobile-specific styling */
+@media (max-width: 600px) {
+  .profile-paper {
+    padding-bottom: 20px; /* Adjust the padding as needed */
+    margin-bottom: 20px;
+  }
+}
+
+/* Ensure the "My Total Wellness Logs" title is aligned to the left */
+.profile-paper h5 {
+  text-align: left;
 }
