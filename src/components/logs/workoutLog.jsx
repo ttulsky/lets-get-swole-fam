@@ -32,6 +32,10 @@ const WorkoutLog = () => {
   const theme = useTheme();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (currentUser) {
       fetchLogs();
     }

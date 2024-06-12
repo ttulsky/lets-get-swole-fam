@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import "./yoga.css";
 
@@ -36,6 +36,10 @@ const videos = [
 ];
 
 function YogaResources() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Container className="yoga-container">
       <br />

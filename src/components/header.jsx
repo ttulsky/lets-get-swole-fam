@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import AuthContext from "../authContext";
 import ThemeToggleButton from "./toggle/ThemeToggleButton";
 import "./header.css";
@@ -19,6 +19,7 @@ import "./header.css";
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser, userName, profileImageURL, logout } =
     useContext(AuthContext);
 
@@ -41,6 +42,14 @@ function Header() {
       navigate("/");
     } else {
       navigate("/login");
+    }
+  };
+
+  const handleAvatarClick = () => {
+    if (location.pathname === "/profile") {
+      navigate("/home");
+    } else {
+      navigate("/profile");
     }
   };
 
@@ -114,7 +123,7 @@ function Header() {
         </div>
         <div className="right-section">
           <Tooltip title="My Profile">
-            <Button onClick={() => handleNavigate("/profile")}>
+            <Button onClick={handleAvatarClick}>
               {profileImageURL ? (
                 <Avatar
                   src={profileImageURL}

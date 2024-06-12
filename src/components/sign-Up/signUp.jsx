@@ -1,5 +1,5 @@
 // src/components/SignUp.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -33,6 +33,10 @@ const SignUp = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleClose = () => {
     if (

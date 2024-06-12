@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Paper, Typography } from "@mui/material";
 import "./resources.css";
 
 const Resources = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="resources-container">
       <Typography variant="h4" gutterBottom>

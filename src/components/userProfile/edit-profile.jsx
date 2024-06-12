@@ -30,6 +30,10 @@ const EditProfile = ({ onClose }) => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const fetchUserData = async () => {
     try {
       const userDoc = await getDoc(doc(firestore, "users", currentUser.uid));

@@ -17,11 +17,11 @@ const LP = () => {
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={6}>
             <Typography variant="h4" className="title">
-              Reach your goals with Swole Wellness
+              Track your progress with Swole Wellness
             </Typography>
             <Typography variant="h5" className="subtitle">
               Build healthy habits with the all-in-one food, exercise, and
-              calorie tracker.
+              calorie tracker!
             </Typography>
             <br />
             <Button variant="contained" color="primary" onClick={handleSignUp}>

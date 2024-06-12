@@ -23,6 +23,10 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone
