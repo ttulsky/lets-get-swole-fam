@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { quotes } from "../quotes";
-import { Modal, Box, Typography, useTheme, IconButton } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Typography,
+  useTheme,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { headlines } from "../headlines";
@@ -85,43 +92,49 @@ const Home = () => {
       <div className="content">
         <div className="nav-links">
           <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/workoutLog")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../dumbell.png"
-                alt="Workout Logs"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Workout</Typography>
+            <Tooltip title="🏋️" placement="right">
+              <IconButton
+                onClick={() => handleNavigate("/workoutLog")}
+                className="glowing-image-icon"
+              >
+                <img
+                  src="../dumbell.png"
+                  alt="Workout Logs"
+                  className="icon-small-lp"
+                />
+              </IconButton>
+              <Typography variant="body2">Workout</Typography>
+            </Tooltip>
           </div>
           <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/mealLogs")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../apple.png"
-                alt="Meal Logs"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Meals</Typography>
+            <Tooltip title="🍎" placement="right">
+              <IconButton
+                onClick={() => handleNavigate("/mealLogs")}
+                className="glowing-image-icon"
+              >
+                <img
+                  src="../apple.png"
+                  alt="Meal Logs"
+                  className="icon-small-lp"
+                />
+              </IconButton>
+              <Typography variant="body2">Meals</Typography>
+            </Tooltip>
           </div>
           <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/meditationTimer")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../game-boy.png"
-                alt="Meditation Timer"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Meditate</Typography>
+            <Tooltip title="🧘" placement="right">
+              <IconButton
+                onClick={() => handleNavigate("/meditationTimer")}
+                className="glowing-image-icon"
+              >
+                <img
+                  src="../game-boy.png"
+                  alt="Meditation Timer"
+                  className="icon-small-lp"
+                />
+              </IconButton>
+              <Typography variant="body2">Meditate</Typography>
+            </Tooltip>
           </div>
         </div>
 
@@ -131,15 +144,17 @@ const Home = () => {
           and tips to elevate your physical, mental, and emotional health. Let's
           get swole, fam!
         </p>
-        <div className="glowing-image">
-          <img
-            src="../fitness.png"
-            className="App-logo"
-            alt="logo"
-            onClick={handleImageClick}
-            style={{ cursor: "pointer" }}
-          />
-        </div>
+        <Tooltip title="💭" placement="right">
+          <div className="glowing-image">
+            <img
+              src="../fitness.png"
+              className="App-logo"
+              alt="logo"
+              onClick={handleImageClick}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        </Tooltip>
         {isInstalled ? (
           <p className="install-message"></p>
         ) : (

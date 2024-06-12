@@ -78,6 +78,7 @@ p {
   flex-direction: column;
   align-items: center;
   margin: 0 10px; /* Adjusted margin for better spacing */
+  padding-left: 13px;
 }
 
 .icon-small-lp {

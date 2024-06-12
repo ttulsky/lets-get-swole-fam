@@ -64,7 +64,7 @@ function Header() {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleClose}
-            sx={{ "& .MuiPaper-root": { width: "200px" } }}
+            sx={{ "& .MuiPaper-root": { width: "210px" } }}
           >
             <MenuItem onClick={() => handleNavigate("/workoutLog")}>
               <img src="../dumbell.png" alt="logo" className="icon-small" />
