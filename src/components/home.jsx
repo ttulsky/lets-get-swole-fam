@@ -96,49 +96,43 @@ const Home = () => {
       <div className="content">
         <div className="nav-links">
           <div className="nav-item">
-            <Tooltip title="🏋️" placement="right">
-              <IconButton
-                onClick={() => handleNavigate("/workoutLog")}
-                className="glowing-image-icon"
-              >
-                <img
-                  src="../dumbell.png"
-                  alt="Workout Logs"
-                  className="icon-small-lp"
-                />
-              </IconButton>
-              <Typography variant="body2">Workout</Typography>
-            </Tooltip>
+            <IconButton
+              onClick={() => handleNavigate("/workoutLog")}
+              className="glowing-image-icon"
+            >
+              <img
+                src="../dumbell.png"
+                alt="Workout Logs"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Workout</Typography>
           </div>
           <div className="nav-item">
-            <Tooltip title="🍎" placement="right">
-              <IconButton
-                onClick={() => handleNavigate("/mealLogs")}
-                className="glowing-image-icon"
-              >
-                <img
-                  src="../apple.png"
-                  alt="Meal Logs"
-                  className="icon-small-lp"
-                />
-              </IconButton>
-              <Typography variant="body2">Meals</Typography>
-            </Tooltip>
+            <IconButton
+              onClick={() => handleNavigate("/mealLogs")}
+              className="glowing-image-icon"
+            >
+              <img
+                src="../apple.png"
+                alt="Meal Logs"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Meals</Typography>
           </div>
           <div className="nav-item">
-            <Tooltip title="🧘" placement="right">
-              <IconButton
-                onClick={() => handleNavigate("/meditationTimer")}
-                className="glowing-image-icon"
-              >
-                <img
-                  src="../game-boy.png"
-                  alt="Meditation Timer"
-                  className="icon-small-lp"
-                />
-              </IconButton>
-              <Typography variant="body2">Meditate</Typography>
-            </Tooltip>
+            <IconButton
+              onClick={() => handleNavigate("/meditationTimer")}
+              className="glowing-image-icon"
+            >
+              <img
+                src="../game-boy.png"
+                alt="Meditation Timer"
+                className="icon-small-lp"
+              />
+            </IconButton>
+            <Typography variant="body2">Meditate</Typography>
           </div>
         </div>
 

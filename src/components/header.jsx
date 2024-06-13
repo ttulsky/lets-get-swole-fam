@@ -15,6 +15,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import AuthContext from "../authContext";
 import ThemeToggleButton from "./toggle/ThemeToggleButton";
 import "./header.css";
+import { useTheme } from "../themeContext";
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,6 +23,7 @@ function Header() {
   const location = useLocation();
   const { currentUser, userName, profileImageURL, logout } =
     useContext(AuthContext);
+  const { mode } = useTheme();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -108,7 +110,7 @@ function Header() {
               Contact
             </MenuItem>
           </Menu>
-          <ThemeToggleButton />
+          <ThemeToggleButton currentMode={mode} />
           <Tooltip title="Home">
             <Typography
               variant="h6"
