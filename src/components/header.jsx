@@ -122,7 +122,9 @@ function Header() {
           </Tooltip>
         </div>
         <div className="right-section">
-          <Tooltip title="My Profile">
+          <Tooltip
+            title={location.pathname === "/profile" ? "Home" : "My Profile"}
+          >
             <Button onClick={handleAvatarClick}>
               {profileImageURL ? (
                 <Avatar
