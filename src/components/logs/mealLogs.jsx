@@ -11,9 +11,17 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
-import { collection, addDoc, query, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
 import LogsModal from "../modal/modal";
@@ -45,6 +53,8 @@ function MealLog() {
   const [selectedLog, setSelectedLog] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [editNote, setEditNote] = useState(""); // For editing log content
+  const [isEditing, setIsEditing] = useState(false); // To track edit mode
   const theme = useTheme();
 
   useEffect(() => {
@@ -108,6 +118,7 @@ function MealLog() {
 
   const handleOpenLogDetail = (log) => {
     setSelectedLog(log);
+    setEditNote(log.content); // Set edit note to the current log content
     setLogDetailOpen(true);
     setModalOpen(false);
   };
@@ -116,6 +127,34 @@ function MealLog() {
     setModalOpen(false);
     setLogDetailOpen(false);
     setSelectedLog(null);
+    setIsEditing(false); // Exit edit mode on modal close
+  };
+
+  const handleEditNoteChange = (event) => {
+    setEditNote(event.target.value);
+  };
+
+  const handleUpdateLog = async () => {
+    if (selectedLog && editNote.trim() !== "") {
+      const logRef = doc(
+        firestore,
+        `users/${currentUser.uid}/mealLogs`,
+        selectedLog.id
+      );
+      await updateDoc(logRef, {
+        content: editNote,
+        dateTime: selectedLog.dateTime, // Preserve the original dateTime
+      });
+      setSnackbarMessage("Log updated successfully.");
+      setSnackbarOpen(true);
+      setLogDetailOpen(false);
+      setIsEditing(false); // Exit edit mode after updating
+      fetchLogs(); // Refresh logs after updating
+    }
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
   const handleSnackbarClose = () => {
@@ -180,11 +219,41 @@ function MealLog() {
             <Typography variant="h6">
               {selectedLog && formatDateTime(selectedLog.dateTime)}
             </Typography>
-            <IconButton onClick={handleCloseModal}>
-              <CloseIcon />
-            </IconButton>
+            <div>
+              <IconButton onClick={handleEditClick} disabled={isEditing}>
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={handleCloseModal}>
+                <CloseIcon />
+              </IconButton>
+            </div>
           </Box>
-          {selectedLog && <Typography>{selectedLog.content}</Typography>}
+          {selectedLog && !isEditing && (
+            <Typography>{selectedLog.content}</Typography>
+          )}
+          {selectedLog && isEditing && (
+            <Box>
+              <Typography variant="body1" gutterBottom>
+                Edit Log:
+              </Typography>
+              <TextField
+                value={editNote}
+                onChange={handleEditNoteChange}
+                multiline
+                rows={4}
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: 20 }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUpdateLog}
+              >
+                Update Log
+              </Button>
+            </Box>
+          )}
         </Box>
       </Modal>
 

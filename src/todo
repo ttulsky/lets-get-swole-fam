@@ -1,9 +1,14 @@
 Backlog 6-11
--lp layout- conider the layout of my fitness pal and how the lp guides the users to sign up to see the features of the app. 
+-lp layout- conider the layout of my fitness pal and how the lp guides the users to sign up to see the features of the app. DONE!
 
--user profile, find a way to create a user profile with basic information, height, weight, age, name, wellness goals, photo, ect. on log in they should be able to view and edit this information. 
+-user profile, find a way to create a user profile with basic information, height, weight, age, name, wellness goals, photo, ect. on log in they should be able to view and edit this information. DONE!
 
--on log in, change to a different lp or dashboard, you could use some of the dat to disply here for the user, eg you worked out X number of times this week or, you tracked 4 meals this weke and so on.
+-on log in, change to a different lp or dashboard, you could use some of the dat to disply here for the user, eg you worked out X number of times this week or, you tracked 4 meals this weke and so on. DONE!
+
+backlog 6-13
+-fix scroll issue DONE!
+
+- make logs editable DONE!
 
 -get the calorie tracker working
 
