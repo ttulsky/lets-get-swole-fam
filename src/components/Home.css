@@ -1,84 +1,120 @@
 :root {
-  --background-color: #000125; /* Dark background color */
-  --text-color: #000000; /* Light text color for contrast */
-  --secondary-background-color: #1f1f1f; /* Slightly lighter dark color for secondary elements */
-  --accent-color: #bb86fc; /* Accent color for highlights */
+  --background-color: #000125;
+  --text-color: #000000;
+  --secondary-background-color: #1f1f1f;
+  --accent-color: #bb86fc;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
 }
-
+.subtitle {
+  margin-top: 130px;
+  text-align: center;
+}
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Changed from center to flex-start */
+  justify-content: flex-start;
   text-align: center;
-  min-height: 100vh; /* Ensures the container takes full height */
-  padding-top: 10px; /* Add padding to the top to create space from the header */
-  overflow-y: auto; /* Allow vertical scrolling */
+  min-height: 100vh;
+  padding-top: 20px;
+  overflow-y: auto;
 }
 
 .content {
   max-width: 800px;
   padding: 10px;
+  position: relative;
 }
 
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 0.5em;
+.logo-container {
+  padding: 10px;
+  border-radius: 20%;
+  margin-bottom: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-p {
-  font-size: 1.2em;
-  line-height: 1.5;
-  margin-bottom: 1em;
+.sw-logo {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: flex;
+}
+
+.central-image {
+  position: relative;
+  z-index: 1;
+}
+
+.circle-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-item {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 65px; /* Adjust the size as needed */
+  height: 65px; /* Adjust the size as needed */
+}
+
+.icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon1 {
+  transform: rotate(0deg) translate(455%) rotate(0deg);
+}
+
+.icon2 {
+  transform: rotate(60deg) translate(455%) rotate(-60deg);
+}
+
+.icon3 {
+  transform: rotate(120deg) translate(455%) rotate(-120deg);
+}
+
+.icon4 {
+  transform: rotate(180deg) translate(455%) rotate(-180deg);
+}
+
+.icon5 {
+  transform: rotate(240deg) translate(455%) rotate(-240deg);
+}
+
+.icon6 {
+  transform: rotate(300deg) translate(455%) rotate(-300deg);
 }
 
 .App-logo {
   height: 50vmin;
   pointer-events: auto;
-  border-radius: 50%; /* Make the image circular */
+  border-radius: 50%;
   object-position: center;
   cursor: pointer;
-  max-width: 100%; /* Ensure image does not overflow */
+  max-width: 100%;
 }
 
 .App-logo:hover {
-  transform: scale(1.002); /* Slightly enlarge on hover */
-}
-
-.test-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: white;
-  background-color: #2196f3;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.test-button:hover {
-  background-color: #1976d2;
-}
-
-.nav-links {
-  display: flex;
-  justify-content: space-around; /* Distribute space around the items */
-  align-items: center;
-  width: 100%; /* Make sure it takes full width */
-  margin-bottom: 10px; /* Add margin at the bottom */
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px; /* Adjusted margin for better spacing */
-  padding-left: 13px;
+  transform: scale(1.002);
 }
 
 .icon-small-lp {
@@ -87,22 +123,8 @@ p {
   border-radius: 50%;
 }
 
-/* Media query for mobile viewports */
-@media (max-width: 768px) {
-  .App-logo {
-    height: 70vmin; /* Increase logo size for mobile */
-  }
-  .nav-links {
-    flex-direction: row;
-    justify-content: space-around; /* Ensure items are evenly spaced on mobile */
-  }
-  .nav-item {
-    margin: 0 5px; /* Adjusted margin for better spacing on mobile */
-  }
-}
-
 .a2hs-button {
-  display: inline-block; /* Show by default */
+  display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -119,34 +141,8 @@ p {
 
 @media (min-width: 769px) {
   .a2hs-button {
-    display: none; /* Hide on larger screens */
+    display: none;
   }
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  max-width: 90%;
-  max-height: 90%; /* Limit the height */
-  overflow-y: auto; /* Add scroll if content overflows */
-  text-align: center;
-  color: #000000;
 }
 
 .glowing-image {
@@ -203,5 +199,157 @@ p {
   }
   100% {
     box-shadow: 0 0 20px rgba(0, 128, 255, 1);
+  }
+}
+
+@media (max-width: 768px) {
+  .circle-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .icon1 {
+    transform: rotate(0deg) translate(270%) rotate(0deg);
+  }
+
+  .icon2 {
+    transform: rotate(60deg) translate(270%) rotate(-60deg);
+  }
+
+  .icon3 {
+    transform: rotate(120deg) translate(270%) rotate(-120deg);
+  }
+
+  .icon4 {
+    transform: rotate(180deg) translate(270%) rotate(-180deg);
+  }
+
+  .icon5 {
+    transform: rotate(240deg) translate(270%) rotate(-240deg);
+  }
+
+  .icon6 {
+    transform: rotate(300deg) translate(270%) rotate(-300deg);
+  }
+}
+@media (min-width: 380px) and (max-width: 450px) {
+  .nav-item {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 59px; /* Adjust the size as needed */
+    height: 59px; /* Adjust the size as needed */
+  }
+}
+@media (max-width: 378px) {
+  .nav-item {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 57px; /* Adjust the size as needed */
+    height: 57px; /* Adjust the size as needed */
+  }
+  .circle-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .icon1 {
+    transform: rotate(0deg) translate(250%) rotate(0deg);
+  }
+
+  .icon2 {
+    transform: rotate(60deg) translate(250%) rotate(-60deg);
+  }
+
+  .icon3 {
+    transform: rotate(120deg) translate(250%) rotate(-120deg);
+  }
+
+  .icon4 {
+    transform: rotate(180deg) translate(250%) rotate(-180deg);
+  }
+
+  .icon5 {
+    transform: rotate(240deg) translate(250%) rotate(-240deg);
+  }
+
+  .icon6 {
+    transform: rotate(300deg) translate(250%) rotate(-300deg);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 768px) {
+  .home-container {
+    padding-top: 30px;
+  }
+
+  .circle-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .icon1 {
+    transform: rotate(0deg) translate(450%) rotate(0deg);
+  }
+
+  .icon2 {
+    transform: rotate(60deg) translate(450%) rotate(-60deg);
+  }
+
+  .icon3 {
+    transform: rotate(120deg) translate(450%) rotate(-120deg);
+  }
+
+  .icon4 {
+    transform: rotate(180deg) translate(450%) rotate(-180deg);
+  }
+
+  .icon5 {
+    transform: rotate(240deg) translate(450%) rotate(-240deg);
+  }
+
+  .icon6 {
+    transform: rotate(300deg) translate(450%) rotate(-300deg);
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1480px) and (min-height: 900px) and (max-height: 1100px) {
+  .home-container {
+    padding-top: 60px;
+  }
+  .circle-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .icon1 {
+    transform: rotate(0deg) translate(550%) rotate(0deg);
+  }
+
+  .icon2 {
+    transform: rotate(60deg) translate(550%) rotate(-60deg);
+  }
+
+  .icon3 {
+    transform: rotate(120deg) translate(550%) rotate(-120deg);
+  }
+
+  .icon4 {
+    transform: rotate(180deg) translate(550%) rotate(-180deg);
+  }
+
+  .icon5 {
+    transform: rotate(240deg) translate(550%) rotate(-240deg);
+  }
+
+  .icon6 {
+    transform: rotate(300deg) translate(550%) rotate(-300deg);
   }
 }

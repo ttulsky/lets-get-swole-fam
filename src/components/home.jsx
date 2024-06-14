@@ -93,55 +93,43 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      <div className="logo-container"></div>
       <div className="content">
-        <div className="nav-links">
-          <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/workoutLog")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../dumbell.png"
-                alt="Workout Logs"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Workout</Typography>
-          </div>
-          <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/mealLogs")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../apple.png"
-                alt="Meal Logs"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Meals</Typography>
-          </div>
-          <div className="nav-item">
-            <IconButton
-              onClick={() => handleNavigate("/meditationTimer")}
-              className="glowing-image-icon"
-            >
-              <img
-                src="../game-boy.png"
-                alt="Meditation Timer"
-                className="icon-small-lp"
-              />
-            </IconButton>
-            <Typography variant="body2">Meditate</Typography>
-          </div>
+        <div className="circle-container">
+          {[
+            {
+              path: "/meditationTimer",
+              icon: "../game-boy.png",
+              label: "Meditation",
+            },
+            { path: "/contact", icon: "../Heart.png", label: "Contact" },
+            {
+              path: "/resources",
+              icon: "../heart-drip-weight.png",
+              label: "Resources",
+            },
+            { path: "/yoga", icon: "../yoga-meditate.png", label: "Yoga" },
+            { path: "/workoutLog", icon: "../dumbell.png", label: "Workout" },
+            { path: "/mealLogs", icon: "../apple.png", label: "Meals" },
+          ].map((item, index) => (
+            <div key={index} className={`nav-item icon${index + 1}`}>
+              <div className="icon-wrapper">
+                <IconButton
+                  onClick={() => handleNavigate(item.path)}
+                  className="glowing-image-icon"
+                >
+                  <img
+                    src={item.icon}
+                    alt={item.label}
+                    className="icon-small-lp"
+                  />
+                </IconButton>
+                <Typography variant="body2">{item.label}</Typography>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <p>
-          Your ultimate resource for whole body wellness! Whether you're hitting
-          the gym, meditating, or building better habits, we've got the tools
-          and tips to elevate your physical, mental, and emotional health. Let's
-          get swole, fam!
-        </p>
         <Tooltip title="💭" placement="right">
           <div className="glowing-image">
             <img
@@ -153,15 +141,7 @@ const Home = () => {
             />
           </div>
         </Tooltip>
-        {isInstalled ? (
-          <p className="install-message"></p>
-        ) : (
-          isVisible && (
-            <button onClick={handleAddToHomeScreen} className="a2hs-button">
-              Download the App
-            </button>
-          )
-        )}
+
         <Modal open={modalOpen} onClose={handleCloseModal}>
           <Box
             sx={{
@@ -186,6 +166,10 @@ const Home = () => {
           </Box>
         </Modal>
       </div>
+      <h3 className="subtitle">
+        Build healthy habits with the all-in-one exercise, meditation, and meal
+        tracker!
+      </h3>
     </div>
   );
 };
