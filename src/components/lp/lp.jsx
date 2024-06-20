@@ -21,8 +21,8 @@ const LP = () => {
             </Typography>
 
             <Typography variant="h5" className="subtitle">
-              Build healthy habits with the all-in-one food, exercise, and
-              calorie tracker!
+              Build healthy habits with the all-in-one exercise, meditation and
+              meal tracker!
             </Typography>
             <br />
             <Button variant="contained" color="primary" onClick={handleSignUp}>
