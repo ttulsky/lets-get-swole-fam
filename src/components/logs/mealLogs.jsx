@@ -6,12 +6,15 @@ import {
   Typography,
   Paper,
   Snackbar,
-  Modal,
-  Box,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
   IconButton,
+  Input,
+  Box,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import {
@@ -20,41 +23,27 @@ import {
   query,
   getDocs,
   doc,
-  updateDoc,
+  Timestamp,
 } from "firebase/firestore";
-import { Timestamp } from "firebase/firestore";
 import AuthContext from "../../authContext";
-import LogsModal from "../modal/modal";
+import axios from "axios";
 import { useTheme } from "@mui/material/styles";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80%",
-  maxWidth: 600,
-  bgcolor: "background.paper",
-  border: "none",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 10,
-  maxHeight: "80vh",
-  overflowY: "auto",
-};
 
 function MealLog() {
   const { currentUser } = useContext(AuthContext);
-  const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
-  const [dateLogs, setDateLogs] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [logDetailOpen, setLogDetailOpen] = useState(false);
-  const [selectedLog, setSelectedLog] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [editNote, setEditNote] = useState(""); // For editing log content
-  const [isEditing, setIsEditing] = useState(false); // To track edit mode
+  const [activeMeal, setActiveMeal] = useState("breakfast");
+  const [breakfast, setBreakfast] = useState([]);
+  const [lunch, setLunch] = useState([]);
+  const [dinner, setDinner] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [amounts, setAmounts] = useState([]);
+  const [breakfastInput, setBreakfastInput] = useState("");
+  const [lunchInput, setLunchInput] = useState("");
+  const [dinnerInput, setDinnerInput] = useState("");
   const theme = useTheme();
 
   useEffect(() => {
@@ -67,99 +56,153 @@ function MealLog() {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    const dateLogs = logs.filter(
+      (log) =>
+        log.dateTime &&
+        log.dateTime.toDateString() === selectedDate.toDateString()
+    );
+    if (dateLogs.length > 0) {
+      setBreakfast(dateLogs[0].breakfast || []);
+      setLunch(dateLogs[0].lunch || []);
+      setDinner(dateLogs[0].dinner || []);
+    } else {
+      setBreakfast([]);
+      setLunch([]);
+      setDinner([]);
+    }
+  }, [selectedDate, logs]);
+
   const fetchLogs = async () => {
     if (currentUser) {
       const q = query(
         collection(firestore, `users/${currentUser.uid}/mealLogs`)
       );
       const querySnapshot = await getDocs(q);
-      const fetchedLogs = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        dateTime: doc.data().dateTime.toDate(), // Convert Timestamp to Date
-      }));
+      const fetchedLogs = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          dateTime: data.dateTime ? data.dateTime.toDate() : new Date(), // Ensure dateTime exists
+        };
+      });
       setLogs(fetchedLogs);
     }
   };
 
-  const handleInputChange = (event) => {
-    setNote(event.target.value);
+  const handleInputChange = async (event, mealType) => {
+    setActiveMeal(mealType);
+    const query = event.target.value;
+    if (mealType === "breakfast") setBreakfastInput(query);
+    if (mealType === "lunch") setLunchInput(query);
+    if (mealType === "dinner") setDinnerInput(query);
+
+    if (query.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `https://us-central1-lets-get-swole-fam.cloudfunctions.net/calories?query=${query}`
+      );
+      setSuggestions(response.data.foods.food || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const addItem = (item, mealType, index) => {
+    const amount = parseFloat(amounts[index]) || 1;
+    const calories = parseFloat(
+      item.food_description.match(/(\d+(\.\d+)?)kcal/)[1]
+    );
+    const newItem = {
+      food_name: item.food_name,
+      amount: amount,
+      calories: (calories * amount).toFixed(2),
+    };
+
+    if (mealType === "breakfast") {
+      setBreakfast((prev) => [...prev, newItem]);
+      setBreakfastInput("");
+    } else if (mealType === "lunch") {
+      setLunch((prev) => [...prev, newItem]);
+      setLunchInput("");
+    } else if (mealType === "dinner") {
+      setDinner((prev) => [...prev, newItem]);
+      setDinnerInput("");
+    }
+
+    setSuggestions([]);
+    setAmounts([]);
+  };
+
+  const handleAmountChange = (index, value) => {
+    const newAmounts = [...amounts];
+    newAmounts[index] = value;
+    setAmounts(newAmounts);
+  };
+
+  const deleteItem = (mealType, index) => {
+    if (mealType === "breakfast") {
+      setBreakfast((prev) => prev.filter((_, i) => i !== index));
+    } else if (mealType === "lunch") {
+      setLunch((prev) => prev.filter((_, i) => i !== index));
+    } else if (mealType === "dinner") {
+      setDinner((prev) => prev.filter((_, i) => i !== index));
+    }
   };
 
   const handleSubmit = async () => {
     if (!currentUser) {
-      setSnackbarMessage("Please log in to add a log.");
+      setSnackbarMessage("Please log in to save your log.");
       setSnackbarOpen(true);
       return;
     }
 
-    if (note.trim() !== "") {
-      const newLog = {
-        content: note,
-        dateTime: Timestamp.fromDate(new Date()), // Store as Timestamp
-        userId: currentUser.uid, // Include userId
-      };
-      await addDoc(
-        collection(firestore, `users/${currentUser.uid}/mealLogs`),
-        newLog
-      );
-      setNote("");
-      fetchLogs(); // Refresh logs after adding a new one
-    }
+    const newLog = {
+      dateTime: Timestamp.fromDate(selectedDate), // Ensure dateTime is set correctly
+      breakfast: breakfast,
+      lunch: lunch,
+      dinner: dinner,
+    };
+
+    await addDoc(
+      collection(firestore, `users/${currentUser.uid}/mealLogs`),
+      newLog
+    );
+
+    setSnackbarMessage("Log saved successfully.");
+    setSnackbarOpen(true);
+    fetchLogs();
   };
 
   const handleDateClick = (date) => {
+    setSelectedDate(date);
     const dateLogs = logs.filter(
-      (log) => log.dateTime.toDateString() === date.toDateString()
+      (log) =>
+        log.dateTime && log.dateTime.toDateString() === date.toDateString()
     );
-    setDateLogs(dateLogs);
-    setModalOpen(true);
-  };
-
-  const handleOpenLogDetail = (log) => {
-    setSelectedLog(log);
-    setEditNote(log.content); // Set edit note to the current log content
-    setLogDetailOpen(true);
-    setModalOpen(false);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setLogDetailOpen(false);
-    setSelectedLog(null);
-    setIsEditing(false); // Exit edit mode on modal close
-  };
-
-  const handleEditNoteChange = (event) => {
-    setEditNote(event.target.value);
-  };
-
-  const handleUpdateLog = async () => {
-    if (selectedLog && editNote.trim() !== "") {
-      const logRef = doc(
-        firestore,
-        `users/${currentUser.uid}/mealLogs`,
-        selectedLog.id
-      );
-      await updateDoc(logRef, {
-        content: editNote,
-        dateTime: selectedLog.dateTime, // Preserve the original dateTime
-      });
-      setSnackbarMessage("Log updated successfully.");
-      setSnackbarOpen(true);
-      setLogDetailOpen(false);
-      setIsEditing(false); // Exit edit mode after updating
-      fetchLogs(); // Refresh logs after updating
+    if (dateLogs.length > 0) {
+      setBreakfast(dateLogs[0].breakfast || []);
+      setLunch(dateLogs[0].lunch || []);
+      setDinner(dateLogs[0].dinner || []);
+    } else {
+      setBreakfast([]);
+      setLunch([]);
+      setDinner([]);
     }
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
   };
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
+
+  const totalCalories = [...breakfast, ...lunch, ...dinner].reduce(
+    (total, item) => total + parseFloat(item.calories),
+    0
+  );
 
   return (
     <Container component="main" maxWidth="md">
@@ -167,118 +210,292 @@ function MealLog() {
         <Typography variant="h5" style={{ marginBottom: 20 }}>
           Meal Logs
         </Typography>
+        <LogCalendar logs={logs} onDateClick={handleDateClick} />
+        <Typography variant="h6">
+          Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
+        </Typography>
+
+        <Typography variant="h6">Breakfast</Typography>
         <TextField
-          label="Meal Notes"
-          multiline
-          rows={4}
+          label="Add Breakfast Item"
           variant="outlined"
           fullWidth
-          value={note}
-          onChange={handleInputChange}
-          placeholder="Enter your meal details here..."
+          autoComplete="off"
+          value={breakfastInput}
+          onChange={(event) => handleInputChange(event, "breakfast")}
           style={{ marginBottom: 20 }}
         />
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Add Log
-        </Button>
-        <LogCalendar logs={logs} onDateClick={handleDateClick} />
-      </Paper>
-
-      <LogsModal
-        open={modalOpen}
-        handleClose={handleCloseModal}
-        logs={dateLogs}
-        onLogClick={handleOpenLogDetail}
-      />
-
-      <Modal open={logDetailOpen} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "80%",
-            maxWidth: 600,
-            bgcolor: theme.palette.mode === "dark" ? "#333333" : "#ffffff",
-            border: "none",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 10,
-            maxHeight: "80vh",
-            overflowY: "auto",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h6">
-              {selectedLog && formatDateTime(selectedLog.dateTime)}
-            </Typography>
-            <div>
-              <IconButton onClick={handleEditClick} disabled={isEditing}>
-                <EditIcon />
-              </IconButton>
-              <IconButton onClick={handleCloseModal}>
-                <CloseIcon />
-              </IconButton>
-            </div>
-          </Box>
-          {selectedLog && !isEditing && (
-            <Typography>{selectedLog.content}</Typography>
-          )}
-          {selectedLog && isEditing && (
-            <Box>
-              <Typography variant="body1" gutterBottom>
-                Edit Log:
-              </Typography>
-              <TextField
-                value={editNote}
-                onChange={handleEditNoteChange}
-                multiline
-                rows={4}
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: 20 }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleUpdateLog}
+        {activeMeal === "breakfast" && suggestions.length > 0 && (
+          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
+            <List>
+              {suggestions.map((item, index) => (
+                <ListItem
+                  button
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <ListItemText
+                    primary={`${item.food_name}`}
+                    secondary={`${item.food_description}`}
+                    sx={{ maxWidth: "calc(100% - 100px)" }}
+                  />
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: 1,
+                    }}
+                  >
+                    <Input
+                      placeholder="Amount"
+                      type="number"
+                      step="0.1"
+                      value={amounts[index] || ""}
+                      onChange={(e) =>
+                        handleAmountChange(index, e.target.value)
+                      }
+                      sx={{ width: 80, marginRight: 1 }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => addItem(item, "breakfast", index)}
+                    >
+                      Add
+                    </Button>
+                  </Box>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
+        {breakfast.length > 0 && (
+          <List>
+            {breakfast.map((item, index) => (
+              <ListItem
+                key={index}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                Update Log
-              </Button>
-            </Box>
-          )}
-        </Box>
-      </Modal>
+                <ListItemText
+                  primary={`${item.food_name} (${item.amount})`}
+                  secondary={`${item.calories} kcal`}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deleteItem("breakfast", index)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
+
+        <Typography variant="h6">Lunch</Typography>
+        <TextField
+          label="Add Lunch Item"
+          variant="outlined"
+          fullWidth
+          autoComplete="off"
+          value={lunchInput}
+          onChange={(event) => handleInputChange(event, "lunch")}
+          style={{ marginBottom: 20 }}
+        />
+        {activeMeal === "lunch" && suggestions.length > 0 && (
+          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
+            <List>
+              {suggestions.map((item, index) => (
+                <ListItem
+                  button
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <ListItemText
+                    primary={`${item.food_name}`}
+                    secondary={`${item.food_description}`}
+                    sx={{ maxWidth: "calc(100% - 100px)" }}
+                  />
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: 1,
+                    }}
+                  >
+                    <Input
+                      placeholder="Amount"
+                      type="number"
+                      step="0.1"
+                      value={amounts[index] || ""}
+                      onChange={(e) =>
+                        handleAmountChange(index, e.target.value)
+                      }
+                      sx={{ width: 80, marginRight: 1 }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => addItem(item, "lunch", index)}
+                    >
+                      Add
+                    </Button>
+                  </Box>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
+        {lunch.length > 0 && (
+          <List>
+            {lunch.map((item, index) => (
+              <ListItem
+                key={index}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <ListItemText
+                  primary={`${item.food_name} (${item.amount})`}
+                  secondary={`${item.calories} kcal`}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deleteItem("lunch", index)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
+
+        <Typography variant="h6">Dinner</Typography>
+        <TextField
+          label="Add Dinner Item"
+          variant="outlined"
+          fullWidth
+          autoComplete="off"
+          value={dinnerInput}
+          onChange={(event) => handleInputChange(event, "dinner")}
+          style={{ marginBottom: 20 }}
+        />
+        {activeMeal === "dinner" && suggestions.length > 0 && (
+          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
+            <List>
+              {suggestions.map((item, index) => (
+                <ListItem
+                  button
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <ListItemText
+                    primary={`${item.food_name}`}
+                    secondary={`${item.food_description}`}
+                    sx={{ maxWidth: "calc(100% - 100px)" }}
+                  />
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: 1,
+                    }}
+                  >
+                    <Input
+                      placeholder="Amount"
+                      type="number"
+                      step="0.1"
+                      value={amounts[index] || ""}
+                      onChange={(e) =>
+                        handleAmountChange(index, e.target.value)
+                      }
+                      sx={{ width: 80, marginRight: 1 }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => addItem(item, "dinner", index)}
+                    >
+                      Add
+                    </Button>
+                  </Box>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
+        {dinner.length > 0 && (
+          <List>
+            {dinner.map((item, index) => (
+              <ListItem
+                key={index}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <ListItemText
+                  primary={`${item.food_name} (${item.amount})`}
+                  secondary={`${item.calories} kcal`}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deleteItem("dinner", index)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
+
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Save Log
+        </Button>
+      </Paper>
 
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         message={snackbarMessage}
-        anchorOrigin={{ vertical: "center", horizontal: "center" }} // Center the Snackbar
+        anchorOrigin={{ vertical: "center", horizontal: "center" }}
       />
     </Container>
   );
-}
-
-// Helper function to format date and time
-function formatDateTime(dateTime) {
-  return `${new Date(dateTime).toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })} at ${new Date(dateTime).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  })}`;
 }
 
 export default MealLog;
