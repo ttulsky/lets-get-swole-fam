@@ -23,6 +23,7 @@ import {
   query,
   getDocs,
   doc,
+  updateDoc,
   Timestamp,
 } from "firebase/firestore";
 import AuthContext from "../../authContext";
@@ -114,13 +115,26 @@ function MealLog() {
 
   const addItem = (item, mealType, index) => {
     const amount = parseFloat(amounts[index]) || 1;
-    const calories = parseFloat(
-      item.food_description.match(/(\d+(\.\d+)?)kcal/)[1]
-    );
+
+    // Use regular expressions to find the relevant information
+    const caloriesMatch = item.food_description.match(/(\d+(\.\d+)?)kcal/);
+    const carbsMatch = item.food_description.match(/(\d+(\.\d+)?)g Carbs/);
+    const fatMatch = item.food_description.match(/(\d+(\.\d+)?)g Fat/);
+    const proteinMatch = item.food_description.match(/(\d+(\.\d+)?)g Protein/);
+
+    // Extract values and set defaults if matches are not found
+    const calories = caloriesMatch ? parseFloat(caloriesMatch[1]) : 0;
+    const carbs = carbsMatch ? parseFloat(carbsMatch[1]) : 0;
+    const fat = fatMatch ? parseFloat(fatMatch[1]) : 0;
+    const protein = proteinMatch ? parseFloat(proteinMatch[1]) : 0;
+
     const newItem = {
       food_name: item.food_name,
       amount: amount,
       calories: (calories * amount).toFixed(2),
+      carbs: (carbs * amount).toFixed(2),
+      fat: (fat * amount).toFixed(2),
+      protein: (protein * amount).toFixed(2),
     };
 
     if (mealType === "breakfast") {
@@ -168,10 +182,24 @@ function MealLog() {
       dinner: dinner,
     };
 
-    await addDoc(
-      collection(firestore, `users/${currentUser.uid}/mealLogs`),
-      newLog
+    const dateLogs = logs.filter(
+      (log) =>
+        log.dateTime &&
+        log.dateTime.toDateString() === selectedDate.toDateString()
     );
+
+    if (dateLogs.length > 0) {
+      // Update existing log
+      const logId = dateLogs[0].id;
+      const logRef = doc(firestore, `users/${currentUser.uid}/mealLogs`, logId);
+      await updateDoc(logRef, newLog);
+    } else {
+      // Add new log
+      await addDoc(
+        collection(firestore, `users/${currentUser.uid}/mealLogs`),
+        newLog
+      );
+    }
 
     setSnackbarMessage("Log saved successfully.");
     setSnackbarOpen(true);
