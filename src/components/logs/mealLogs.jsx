@@ -13,6 +13,8 @@ import {
   IconButton,
   Input,
   Box,
+  Card,
+  CardContent,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LogCalendar from "../calendar/calendar";
@@ -116,11 +118,15 @@ function MealLog() {
   const addItem = async (item, mealType, index) => {
     const amount = parseFloat(amounts[index]) || 1;
 
-    // Use regular expressions to find the relevant information
-    const caloriesMatch = item.food_description.match(/(\d+(\.\d+)?)kcal/);
-    const carbsMatch = item.food_description.match(/(\d+(\.\d+)?)g Carbs/);
-    const fatMatch = item.food_description.match(/(\d+(\.\d+)?)g Fat/);
-    const proteinMatch = item.food_description.match(/(\d+(\.\d+)?)g Protein/);
+    // Ensure food description contains the necessary nutritional information
+    const caloriesMatch = item.food_description.match(
+      /Calories:\s*(\d+(\.\d+)?)/
+    );
+    const carbsMatch = item.food_description.match(/Carbs:\s*(\d+(\.\d+)?)/);
+    const fatMatch = item.food_description.match(/Fat:\s*(\d+(\.\d+)?)/);
+    const proteinMatch = item.food_description.match(
+      /Protein:\s*(\d+(\.\d+)?)/
+    );
 
     // Extract values and set defaults if matches are not found
     const calories = caloriesMatch ? parseFloat(caloriesMatch[1]) : 0;
@@ -131,10 +137,10 @@ function MealLog() {
     const newItem = {
       food_name: item.food_name,
       amount: amount,
-      calories: (calories * amount).toFixed(2),
-      carbs: (carbs * amount).toFixed(2),
-      fat: (fat * amount).toFixed(2),
-      protein: (protein * amount).toFixed(2),
+      calories: (calories * amount).toFixed(1),
+      carbs: (carbs * amount).toFixed(1),
+      fat: (fat * amount).toFixed(1),
+      protein: (protein * amount).toFixed(1),
     };
 
     if (mealType === "breakfast") {
@@ -244,9 +250,28 @@ function MealLog() {
     setSnackbarOpen(false);
   };
 
-  const totalCalories = [...breakfast, ...lunch, ...dinner].reduce(
-    (total, item) => total + parseFloat(item.calories),
-    0
+  const totalCalories = parseFloat(
+    [...breakfast, ...lunch, ...dinner]
+      .reduce((total, item) => total + parseFloat(item.calories), 0)
+      .toFixed(1)
+  );
+
+  const totalCarbs = parseFloat(
+    [...breakfast, ...lunch, ...dinner]
+      .reduce((total, item) => total + parseFloat(item.carbs), 0)
+      .toFixed(1)
+  );
+
+  const totalFat = parseFloat(
+    [...breakfast, ...lunch, ...dinner]
+      .reduce((total, item) => total + parseFloat(item.fat), 0)
+      .toFixed(1)
+  );
+
+  const totalProtein = parseFloat(
+    [...breakfast, ...lunch, ...dinner]
+      .reduce((total, item) => total + parseFloat(item.protein), 0)
+      .toFixed(1)
   );
 
   return (
@@ -263,9 +288,28 @@ function MealLog() {
           Meal Logs
         </Typography>
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
-        <Typography variant="h6">
-          Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
-        </Typography>
+        <Card
+          sx={{
+            backgroundColor: theme.palette.background.default,
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
+          }}
+        >
+          <CardContent>
+            <Typography variant="h6">
+              Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
+            </Typography>
+            <Typography variant="h6">
+              Total Carbs: {isNaN(totalCarbs) ? 0 : totalCarbs}g
+            </Typography>
+            <Typography variant="h6">
+              Total Fat: {isNaN(totalFat) ? 0 : totalFat}g
+            </Typography>
+            <Typography variant="h6">
+              Total Protein: {isNaN(totalProtein) ? 0 : totalProtein}g
+            </Typography>
+          </CardContent>
+        </Card>
 
         <Typography variant="h6">Breakfast</Typography>
         <TextField
