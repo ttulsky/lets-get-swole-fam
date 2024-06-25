@@ -113,7 +113,7 @@ function MealLog() {
     }
   };
 
-  const addItem = (item, mealType, index) => {
+  const addItem = async (item, mealType, index) => {
     const amount = parseFloat(amounts[index]) || 1;
 
     // Use regular expressions to find the relevant information
@@ -150,6 +150,12 @@ function MealLog() {
 
     setSuggestions([]);
     setAmounts([]);
+
+    await handleSubmit({
+      breakfast: mealType === "breakfast" ? [...breakfast, newItem] : breakfast,
+      lunch: mealType === "lunch" ? [...lunch, newItem] : lunch,
+      dinner: mealType === "dinner" ? [...dinner, newItem] : dinner,
+    });
   };
 
   const handleAmountChange = (index, value) => {
@@ -158,17 +164,30 @@ function MealLog() {
     setAmounts(newAmounts);
   };
 
-  const deleteItem = (mealType, index) => {
+  const deleteItem = async (mealType, index) => {
+    let updatedBreakfast = breakfast;
+    let updatedLunch = lunch;
+    let updatedDinner = dinner;
+
     if (mealType === "breakfast") {
-      setBreakfast((prev) => prev.filter((_, i) => i !== index));
+      updatedBreakfast = breakfast.filter((_, i) => i !== index);
+      setBreakfast(updatedBreakfast);
     } else if (mealType === "lunch") {
-      setLunch((prev) => prev.filter((_, i) => i !== index));
+      updatedLunch = lunch.filter((_, i) => i !== index);
+      setLunch(updatedLunch);
     } else if (mealType === "dinner") {
-      setDinner((prev) => prev.filter((_, i) => i !== index));
+      updatedDinner = dinner.filter((_, i) => i !== index);
+      setDinner(updatedDinner);
     }
+
+    await handleSubmit({
+      breakfast: updatedBreakfast,
+      lunch: updatedLunch,
+      dinner: updatedDinner,
+    });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (updatedMeals) => {
     if (!currentUser) {
       setSnackbarMessage("Please log in to save your log.");
       setSnackbarOpen(true);
@@ -177,9 +196,9 @@ function MealLog() {
 
     const newLog = {
       dateTime: Timestamp.fromDate(selectedDate), // Ensure dateTime is set correctly
-      breakfast: breakfast,
-      lunch: lunch,
-      dinner: dinner,
+      breakfast: updatedMeals?.breakfast || breakfast,
+      lunch: updatedMeals?.lunch || lunch,
+      dinner: updatedMeals?.dinner || dinner,
     };
 
     const dateLogs = logs.filter(
@@ -201,8 +220,6 @@ function MealLog() {
       );
     }
 
-    setSnackbarMessage("Log saved successfully.");
-    setSnackbarOpen(true);
     fetchLogs();
   };
 
@@ -233,7 +250,14 @@ function MealLog() {
   );
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(2),
+      }}
+    >
       <Paper style={{ padding: 20, marginTop: 20, marginBottom: 20 }}>
         <Typography variant="h5" style={{ marginBottom: 20 }}>
           Meal Logs
@@ -509,10 +533,6 @@ function MealLog() {
             ))}
           </List>
         )}
-
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Save Log
-        </Button>
       </Paper>
 
       <Snackbar
