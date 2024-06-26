@@ -15,6 +15,7 @@ import {
   Box,
   Card,
   CardContent,
+  Grid,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LogCalendar from "../calendar/calendar";
@@ -31,6 +32,7 @@ import {
 import AuthContext from "../../authContext";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
+import MacrosPieChart from "../pieChart/pieChart";
 
 function MealLog() {
   const { currentUser } = useContext(AuthContext);
@@ -137,10 +139,10 @@ function MealLog() {
     const newItem = {
       food_name: item.food_name,
       amount: amount,
-      calories: (calories * amount).toFixed(1),
-      carbs: (carbs * amount).toFixed(1),
-      fat: (fat * amount).toFixed(1),
-      protein: (protein * amount).toFixed(1),
+      calories: Math.round(calories * amount),
+      carbs: Math.round(carbs * amount),
+      fat: Math.round(fat * amount),
+      protein: Math.round(protein * amount),
     };
 
     if (mealType === "breakfast") {
@@ -274,6 +276,12 @@ function MealLog() {
       .toFixed(1)
   );
 
+  const macroData = [
+    { name: "Carbs", value: totalCarbs },
+    { name: "Fat", value: totalFat },
+    { name: "Protein", value: totalProtein },
+  ];
+
   return (
     <Container
       component="main"
@@ -287,31 +295,48 @@ function MealLog() {
         <Typography variant="h5" style={{ marginBottom: 20 }}>
           Meal Logs
         </Typography>
+        <Typography variant="h6" align="center">
+          {selectedDate.toDateString()}
+        </Typography>
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
-        <Card
-          sx={{
-            backgroundColor: theme.palette.background.default,
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-          }}
-        >
-          <CardContent>
-            <Typography variant="h6">
-              Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
-            </Typography>
-            <Typography variant="h6">
-              Total Carbs: {isNaN(totalCarbs) ? 0 : totalCarbs}g
-            </Typography>
-            <Typography variant="h6">
-              Total Fat: {isNaN(totalFat) ? 0 : totalFat}g
-            </Typography>
-            <Typography variant="h6">
-              Total Protein: {isNaN(totalProtein) ? 0 : totalProtein}g
-            </Typography>
-          </CardContent>
-        </Card>
+        <Box sx={{ marginTop: 2 }}>
+          <Card
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              marginBottom: 2,
+            }}
+          >
+            <CardContent>
+              <Typography variant="h6">
+                Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
+              </Typography>
+              <Typography variant="h6">
+                Total Carbs: {isNaN(totalCarbs) ? 0 : totalCarbs}g
+              </Typography>
+              <Typography variant="h6">
+                Total Fat: {isNaN(totalFat) ? 0 : totalFat}g
+              </Typography>
+              <Typography variant="h6">
+                Total Protein: {isNaN(totalProtein) ? 0 : totalProtein}g
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              marginBottom: 2,
+            }}
+          >
+            <CardContent>
+              <Typography variant="h6">Macro Percentages</Typography>
+              <MacrosPieChart data={macroData} />
+            </CardContent>
+          </Card>
+        </Box>
 
-        <Typography variant="h6">Breakfast</Typography>
+        <Typography variant="h6" sx={{ marginTop: 4 }}>
+          Breakfast
+        </Typography>
         <TextField
           label="Add Breakfast Item"
           variant="outlined"
