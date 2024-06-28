@@ -47,6 +47,8 @@ function MeditationTimer() {
   const [isEditing, setIsEditing] = useState(false); // To track edit mode
 
   const theme = useTheme();
+  const [selectedDate, setSelectedDate] = useState(new Date()); // New state for selected date
+
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -115,11 +117,14 @@ function MeditationTimer() {
   };
 
   const handleDateClick = (date) => {
+    setSelectedDate(date); // Update selected date
     const dateLogs = logs.filter(
       (log) => log.dateTime.toDateString() === date.toDateString()
     );
     setDateLogs(dateLogs);
-    setModalOpen(true);
+    if (dateLogs.length > 0) {
+      setModalOpen(true); // Only open the modal if there are logs for the selected date
+    }
   };
 
   const handleOpenLogDetail = (log) => {
@@ -218,7 +223,8 @@ function MeditationTimer() {
   };
 
   const playChime = () => {
-    const audio = new Audio("/chime.mp3");
+    const audio = new Audio("/chime-2.mp3");
+    audio.load();
     audio.play().catch((e) => console.error("Error playing sound:", e));
   };
 
@@ -311,6 +317,9 @@ function MeditationTimer() {
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Add Log
         </Button>
+        <Typography variant="h6" align="center" style={{ marginTop: 20 }}>
+          {selectedDate.toDateString()}
+        </Typography>
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
       </Paper>
 

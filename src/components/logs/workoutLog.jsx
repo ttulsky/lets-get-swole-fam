@@ -40,6 +40,7 @@ const WorkoutLog = () => {
   const [editNote, setEditNote] = useState(""); // For editing log content
   const [isEditing, setIsEditing] = useState(false); // To track edit mode
   const theme = useTheme();
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -93,11 +94,14 @@ const WorkoutLog = () => {
   };
 
   const handleDateClick = (date) => {
+    setSelectedDate(date); // Update selected date
     const dateLogs = logs.filter(
       (log) => log.dateTime.toDateString() === date.toDateString()
     );
     setDateLogs(dateLogs);
-    setModalOpen(true);
+    if (dateLogs.length > 0) {
+      setModalOpen(true); // Only open the modal if there are logs for the selected date
+    }
   };
 
   const handleOpenLogDetail = (log) => {
@@ -168,6 +172,9 @@ const WorkoutLog = () => {
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Add Log
         </Button>
+        <Typography variant="h6" align="center" style={{ marginTop: 20 }}>
+          {selectedDate.toDateString()}
+        </Typography>
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
       </Paper>
 
