@@ -223,7 +223,7 @@ function MeditationTimer() {
   };
 
   const playChime = () => {
-    const audio = new Audio("/chime-2.mp3");
+    const audio = new Audio("/chime-3.mp3");
     audio.load();
     audio.play().catch((e) => console.error("Error playing sound:", e));
   };
