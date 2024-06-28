@@ -1,23 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Button,
-  TextField,
-  Container,
-  Typography,
-  Paper,
-  Snackbar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Input,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Container, Typography, Paper, Snackbar, Box } from "@mui/material";
 import LogCalendar from "../calendar/calendar";
 import { firestore } from "../../firebase-config";
 import {
@@ -32,7 +14,8 @@ import {
 import AuthContext from "../../authContext";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
-import MacrosPieChart from "../pieChart/pieChart";
+import TotalAndMacroCards from "../../meal-log-components/totalAndMacroCards";
+import MealInputList from "../../meal-log-components/mealInputList";
 
 function MealLog() {
   const { currentUser } = useContext(AuthContext);
@@ -299,309 +282,49 @@ function MealLog() {
           {selectedDate.toDateString()}
         </Typography>
         <LogCalendar logs={logs} onDateClick={handleDateClick} />
-        <Box sx={{ marginTop: 2 }}>
-          <Card
-            sx={{
-              backgroundColor: theme.palette.background.default,
-              marginBottom: 2,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6">
-                Total Calories: {isNaN(totalCalories) ? 0 : totalCalories}
-              </Typography>
-              <Typography variant="h6">
-                Total Carbs: {isNaN(totalCarbs) ? 0 : totalCarbs}g
-              </Typography>
-              <Typography variant="h6">
-                Total Fat: {isNaN(totalFat) ? 0 : totalFat}g
-              </Typography>
-              <Typography variant="h6">
-                Total Protein: {isNaN(totalProtein) ? 0 : totalProtein}g
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{
-              backgroundColor: theme.palette.background.default,
-              marginBottom: 2,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6">Macro Percentages</Typography>
-              <MacrosPieChart data={macroData} />
-            </CardContent>
-          </Card>
-        </Box>
-
-        <Typography variant="h6" sx={{ marginTop: 4 }}>
-          Breakfast
-        </Typography>
-        <TextField
-          label="Add Breakfast Item"
-          variant="outlined"
-          fullWidth
-          autoComplete="off"
-          value={breakfastInput}
-          onChange={(event) => handleInputChange(event, "breakfast")}
-          style={{ marginBottom: 20 }}
+        <TotalAndMacroCards
+          totalCalories={totalCalories}
+          totalCarbs={totalCarbs}
+          totalFat={totalFat}
+          totalProtein={totalProtein}
+          macroData={macroData}
         />
-        {activeMeal === "breakfast" && suggestions.length > 0 && (
-          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
-            <List>
-              {suggestions.map((item, index) => (
-                <ListItem
-                  button
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <ListItemText
-                    primary={`${item.food_name}`}
-                    secondary={`${item.food_description}`}
-                    sx={{ maxWidth: "calc(100% - 100px)" }}
-                  />
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginTop: 1,
-                    }}
-                  >
-                    <Input
-                      placeholder="Amount"
-                      type="number"
-                      step="0.1"
-                      value={amounts[index] || ""}
-                      onChange={(e) =>
-                        handleAmountChange(index, e.target.value)
-                      }
-                      sx={{ width: 80, marginRight: 1 }}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => addItem(item, "breakfast", index)}
-                    >
-                      Add
-                    </Button>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        )}
-        {breakfast.length > 0 && (
-          <List>
-            {breakfast.map((item, index) => (
-              <ListItem
-                key={index}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemText
-                  primary={`${item.food_name} (${item.amount})`}
-                  secondary={`${item.calories} kcal`}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => deleteItem("breakfast", index)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
-
-        <Typography variant="h6">Lunch</Typography>
-        <TextField
-          label="Add Lunch Item"
-          variant="outlined"
-          fullWidth
-          autoComplete="off"
-          value={lunchInput}
-          onChange={(event) => handleInputChange(event, "lunch")}
-          style={{ marginBottom: 20 }}
+        <MealInputList
+          mealType="breakfast"
+          input={breakfastInput}
+          suggestions={suggestions}
+          amounts={amounts}
+          setInput={setBreakfastInput}
+          handleInputChange={handleInputChange}
+          handleAmountChange={handleAmountChange}
+          addItem={addItem}
+          deleteItem={deleteItem}
+          items={breakfast}
         />
-        {activeMeal === "lunch" && suggestions.length > 0 && (
-          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
-            <List>
-              {suggestions.map((item, index) => (
-                <ListItem
-                  button
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <ListItemText
-                    primary={`${item.food_name}`}
-                    secondary={`${item.food_description}`}
-                    sx={{ maxWidth: "calc(100% - 100px)" }}
-                  />
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginTop: 1,
-                    }}
-                  >
-                    <Input
-                      placeholder="Amount"
-                      type="number"
-                      step="0.1"
-                      value={amounts[index] || ""}
-                      onChange={(e) =>
-                        handleAmountChange(index, e.target.value)
-                      }
-                      sx={{ width: 80, marginRight: 1 }}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => addItem(item, "lunch", index)}
-                    >
-                      Add
-                    </Button>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        )}
-        {lunch.length > 0 && (
-          <List>
-            {lunch.map((item, index) => (
-              <ListItem
-                key={index}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemText
-                  primary={`${item.food_name} (${item.amount})`}
-                  secondary={`${item.calories} kcal`}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => deleteItem("lunch", index)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
-
-        <Typography variant="h6">Dinner</Typography>
-        <TextField
-          label="Add Dinner Item"
-          variant="outlined"
-          fullWidth
-          autoComplete="off"
-          value={dinnerInput}
-          onChange={(event) => handleInputChange(event, "dinner")}
-          style={{ marginBottom: 20 }}
+        <MealInputList
+          mealType="lunch"
+          input={lunchInput}
+          suggestions={suggestions}
+          amounts={amounts}
+          setInput={setLunchInput}
+          handleInputChange={handleInputChange}
+          handleAmountChange={handleAmountChange}
+          addItem={addItem}
+          deleteItem={deleteItem}
+          items={lunch}
         />
-        {activeMeal === "dinner" && suggestions.length > 0 && (
-          <Paper style={{ maxHeight: 200, overflow: "auto", marginBottom: 20 }}>
-            <List>
-              {suggestions.map((item, index) => (
-                <ListItem
-                  button
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <ListItemText
-                    primary={`${item.food_name}`}
-                    secondary={`${item.food_description}`}
-                    sx={{ maxWidth: "calc(100% - 100px)" }}
-                  />
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginTop: 1,
-                    }}
-                  >
-                    <Input
-                      placeholder="Amount"
-                      type="number"
-                      step="0.1"
-                      value={amounts[index] || ""}
-                      onChange={(e) =>
-                        handleAmountChange(index, e.target.value)
-                      }
-                      sx={{ width: 80, marginRight: 1 }}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => addItem(item, "dinner", index)}
-                    >
-                      Add
-                    </Button>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        )}
-        {dinner.length > 0 && (
-          <List>
-            {dinner.map((item, index) => (
-              <ListItem
-                key={index}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemText
-                  primary={`${item.food_name} (${item.amount})`}
-                  secondary={`${item.calories} kcal`}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => deleteItem("dinner", index)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
+        <MealInputList
+          mealType="dinner"
+          input={dinnerInput}
+          suggestions={suggestions}
+          amounts={amounts}
+          setInput={setDinnerInput}
+          handleInputChange={handleInputChange}
+          handleAmountChange={handleAmountChange}
+          addItem={addItem}
+          deleteItem={deleteItem}
+          items={dinner}
+        />
       </Paper>
 
       <Snackbar
