@@ -1,15 +1,19 @@
 import React from "react";
 import {
   TextField,
-  Paper,
   List,
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-  Box,
+  Paper,
   Input,
+  Box,
   Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,16 +23,18 @@ const MealInputList = ({
   input,
   suggestions,
   amounts,
+  units,
   setInput,
   handleInputChange,
   handleAmountChange,
+  handleUnitChange,
   addItem,
   deleteItem,
   items,
 }) => {
   return (
     <>
-      <Typography variant="h6">
+      <Typography variant="h6" sx={{ marginTop: 4 }}>
         {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
       </Typography>
       <TextField
@@ -77,6 +83,25 @@ const MealInputList = ({
                     onChange={(e) => handleAmountChange(index, e.target.value)}
                     sx={{ width: 80, marginRight: 1 }}
                   />
+                  <FormControl sx={{ minWidth: 120, marginRight: 1 }}>
+                    <InputLabel id={`unit-label-${index}`}>Unit</InputLabel>
+                    <Select
+                      labelId={`unit-label-${index}`}
+                      value={units[index] || "serving"}
+                      onChange={(e) => handleUnitChange(index, e.target.value)}
+                      label="Unit"
+                    >
+                      <MenuItem value="serving">Serving</MenuItem>
+                      <MenuItem value="grams">Grams</MenuItem>
+                      <MenuItem value="ounces">Ounces</MenuItem>
+                      <MenuItem value="ml">Milliliters</MenuItem>
+                      <MenuItem value="cups">Cups</MenuItem>
+                      <MenuItem value="tbsp">Tablespoons</MenuItem>
+                      <MenuItem value="tsp">Teaspoons</MenuItem>
+                      <MenuItem value="L">Liters</MenuItem>
+                      <MenuItem value="lbs">Pounds</MenuItem>
+                    </Select>
+                  </FormControl>
                   <Button
                     variant="contained"
                     color="primary"
@@ -102,7 +127,9 @@ const MealInputList = ({
               }}
             >
               <ListItemText
-                primary={`${item.food_name} (${item.amount})`}
+                primary={`${item.food_name} (${item.amount}${
+                  item.unit !== "serving" ? ` ${item.unit}` : ""
+                })`}
                 secondary={`${item.calories} kcal`}
               />
               <ListItemSecondaryAction>

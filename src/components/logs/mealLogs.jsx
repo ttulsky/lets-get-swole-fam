@@ -29,6 +29,7 @@ function MealLog() {
   const [dinner, setDinner] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [amounts, setAmounts] = useState([]);
+  const [units, setUnits] = useState([]);
   const [breakfastInput, setBreakfastInput] = useState("");
   const [lunchInput, setLunchInput] = useState("");
   const [dinnerInput, setDinnerInput] = useState("");
@@ -102,6 +103,7 @@ function MealLog() {
 
   const addItem = async (item, mealType, index) => {
     const amount = parseFloat(amounts[index]) || 1;
+    const unit = units[index] || "serving";
 
     // Ensure food description contains the necessary nutritional information
     const caloriesMatch = item.food_description.match(
@@ -119,13 +121,22 @@ function MealLog() {
     const fat = fatMatch ? parseFloat(fatMatch[1]) : 0;
     const protein = proteinMatch ? parseFloat(proteinMatch[1]) : 0;
 
+    // Adjust the amounts based on the unit
+    let adjustedAmount = amount;
+    if (unit === "grams") {
+      adjustedAmount = amount / 100;
+    } else if (unit === "ounces") {
+      adjustedAmount = amount / 28.35;
+    }
+
     const newItem = {
       food_name: item.food_name,
       amount: amount,
-      calories: Math.round(calories * amount),
-      carbs: Math.round(carbs * amount),
-      fat: Math.round(fat * amount),
-      protein: Math.round(protein * amount),
+      unit: unit,
+      calories: Math.round(calories * adjustedAmount),
+      carbs: Math.round(carbs * adjustedAmount),
+      fat: Math.round(fat * adjustedAmount),
+      protein: Math.round(protein * adjustedAmount),
     };
 
     if (mealType === "breakfast") {
@@ -141,6 +152,7 @@ function MealLog() {
 
     setSuggestions([]);
     setAmounts([]);
+    setUnits([]);
 
     await handleSubmit({
       breakfast: mealType === "breakfast" ? [...breakfast, newItem] : breakfast,
@@ -153,6 +165,12 @@ function MealLog() {
     const newAmounts = [...amounts];
     newAmounts[index] = value;
     setAmounts(newAmounts);
+  };
+
+  const handleUnitChange = (index, value) => {
+    const newUnits = [...units];
+    newUnits[index] = value;
+    setUnits(newUnits);
   };
 
   const deleteItem = async (mealType, index) => {
@@ -294,9 +312,11 @@ function MealLog() {
           input={breakfastInput}
           suggestions={suggestions}
           amounts={amounts}
+          units={units}
           setInput={setBreakfastInput}
           handleInputChange={handleInputChange}
           handleAmountChange={handleAmountChange}
+          handleUnitChange={handleUnitChange}
           addItem={addItem}
           deleteItem={deleteItem}
           items={breakfast}
@@ -306,9 +326,11 @@ function MealLog() {
           input={lunchInput}
           suggestions={suggestions}
           amounts={amounts}
+          units={units}
           setInput={setLunchInput}
           handleInputChange={handleInputChange}
           handleAmountChange={handleAmountChange}
+          handleUnitChange={handleUnitChange}
           addItem={addItem}
           deleteItem={deleteItem}
           items={lunch}
@@ -318,9 +340,11 @@ function MealLog() {
           input={dinnerInput}
           suggestions={suggestions}
           amounts={amounts}
+          units={units}
           setInput={setDinnerInput}
           handleInputChange={handleInputChange}
           handleAmountChange={handleAmountChange}
+          handleUnitChange={handleUnitChange}
           addItem={addItem}
           deleteItem={deleteItem}
           items={dinner}
